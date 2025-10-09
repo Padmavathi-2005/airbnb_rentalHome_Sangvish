@@ -1,4 +1,3 @@
-// Store.jsx
 import { configureStore } from "@reduxjs/toolkit";
 import { locationReducer, checkInReducer, checkOutReducer,arrayReducer ,guestReducer} from './slices/SearchSlice';
 import {userNavReducer,switchReducer,userProfileReducer} from "./slices/UserSlice";
@@ -7,6 +6,7 @@ import {allPropertyListReducer} from './slices/PropertiesSlice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from "redux-persist/lib/storage"; // defaults to localStorage
 import { combineReducers } from "redux";
+import expPropertyReducer from './slices/ExpPropertySlice';
 
 import testReducer from './slices/TestSlice';
 import {
@@ -37,6 +37,7 @@ const rootReducer = {
   addProperty:addPropertyReducer,
   addPropertyNav:addPropertyNavReducer,
   propertyList:allPropertyListReducer,
+  expPropertyList: expPropertyReducer,
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers(rootReducer));

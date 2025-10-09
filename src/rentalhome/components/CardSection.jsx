@@ -80,6 +80,7 @@ const handleHeartClick = async (e) => {
         setProperties(propertyData);
         setExpProperties(expPropertyData);
         dispatch(setspacePropertyList(propertyData));
+        dispatch(setExpPropertyList(expPropertyData));
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
