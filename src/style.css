@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+.search-input-block{
+  @apply px-5 py-3 flex flex-col;
+}
+
+:root {
+    --theme-color: #DB0B64;
+    /* --theme-color: #01b2df; */
+    /* --theme-color: #ff007b; */
+    --text-blck:#222;
+}
+
+@layer utilities {
+  .bg-theme {
+    background-color: var(--theme-color);
+  }
+  .bg-theme-50{
+    background-color: color-mix(in srgb, var(--theme-color) 50%, white);
+  }
+  .bg-theme-30{
+    background-color: color-mix(in srgb, var(--theme-color) 30%, white);
+  }
+  .bg-theme-20{
+    background-color: color-mix(in srgb, var(--theme-color) 20%, white);
+  }
+    .bg-theme-10{
+    background-color: color-mix(in srgb, var(--theme-color) 10%, white);
+  }
+  .fill-theme{
+    fill: var(--theme-color);
+  }
+  .text-theme{
+    color: var(--theme-color);
+  }
+  .text-theme-black{
+    color:var(--text-blck);
+  }
+  .border_dft{
+    border-color: var(--theme-color);
+  }
+  .stroke-theme{
+    stroke: var(--theme-color);
+  }
+  body{
+    color:var(--text-blck);
+  }
+}
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  flex: 1;  /* Pushes footer down */
+}
+
+footer {
+  background: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+}

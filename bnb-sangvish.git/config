@@ -1,0 +1,7 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = true
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/Ananth2k/bnb-sangvish.git
