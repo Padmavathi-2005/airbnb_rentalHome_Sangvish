@@ -10,7 +10,7 @@ const getUniqueTypes = (properties) => {
     .map((item) => ({
       name: item.property_type_name,
       cover_photo: item.cover_photo,
-      price: item.price_per_night || 0,
+      price: item.property_price.price || 0,
     }))
     .filter((item) => {
       if (seen.has(item.name)) return false;
@@ -69,6 +69,7 @@ function Categories() {
       try {
         const propertyData = await fetchProperties(payload);
         setProperties(propertyData);
+        console.log("Property data sample:", propertyData[0]);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {

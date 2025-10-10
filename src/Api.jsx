@@ -31,9 +31,12 @@ API.interceptors.response.use(
 
 // API helpers
 export const login = async ({ email, password }) => {
+  console.log("Sending login payload:", { email, password });
   const res = await API.post("/login", { email, password });
-  return res.data; // returns the JSON you showed: {status, message, token, user}
+  console.log("Server response:", res.data);
+  return res.data;
 };
+
 
 export const register = async (userData) => {
   const res = await API.post("/register", userData);
