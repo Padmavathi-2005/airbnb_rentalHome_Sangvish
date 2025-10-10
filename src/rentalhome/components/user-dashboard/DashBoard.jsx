@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useAuth } from "../../../AuthContext";
 import { useDispatch} from 'react-redux';
 import {setNewUserNav} from '../../../slices/UserSlice';
-import RentalNavbar from '../RentalNavBar';
+import RentalNavbar from '../RentalNavbar';
 
 function Card({ className, children, ...props }) {
 

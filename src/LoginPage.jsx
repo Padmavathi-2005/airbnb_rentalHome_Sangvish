@@ -35,47 +35,6 @@ export default function LoginPage() {
 
   return (
     <>
-    
-    {/* <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form onSubmit={handleSubmit} className="w-full max-w-md p-6 bg-white rounded shadow">
-        <h2 className="text-2xl font-semibold mb-4">Login</h2>
-
-        {error && <div className="mb-3 text-red-600">{error}</div>}
-
-        <label className="block mb-2">
-          <span className="text-sm">Email</span>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="mt-1 block w-full border px-3 py-2 rounded"
-            placeholder="jay2345@yopmail.com"
-          />
-        </label>
-
-        <label className="block mb-4">
-          <span className="text-sm">Password</span>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="mt-1 block w-full border px-3 py-2 rounded"
-            placeholder="********"
-          />
-        </label>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-2 rounded bg-theme text-white font-medium disabled:opacity-60"
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
-    </div> */}
-
     <RentalNavbar/>
 
     <div className="section py-[100px] px-5 md:px-0 md:py-[2%]">

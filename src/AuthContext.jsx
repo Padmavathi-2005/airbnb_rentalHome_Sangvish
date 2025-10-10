@@ -43,6 +43,32 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (formData) => {
+  setLoading(true);
+  try {
+    // Replace with your actual API call
+    const data = await apiRegister(formData); 
+    // expected response: { status: true/false, message, user, token }
+
+    if (data?.status && data.token) {
+      setToken(data.token);
+      setUser(data.user);
+
+      // persist token & user in localStorage
+      localStorage.setItem("bnb_token", data.token);
+      localStorage.setItem("bnb_user", JSON.stringify(data.user));
+      setAuthToken(data.token);
+    }
+
+    setLoading(false);
+    return data;
+  } catch (err) {
+    setLoading(false);
+    throw err; // allow SignupPage to handle errors
+  }
+};
+
+
   // logout — client side (call server logout if available)
   const logout = () => {
     setToken(null);
@@ -60,7 +86,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

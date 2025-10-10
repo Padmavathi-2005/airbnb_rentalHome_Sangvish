@@ -5,6 +5,8 @@ import RentalLogo from "../images/Rental.png";
 import { useAuth } from "../../AuthContext";
 import MenuBtn from "../ui/MenuBtn";
 import Model from "../ui/Model"
+import { useUI } from "../../context/UIContext";
+
 
 function RentalNavbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -15,8 +17,7 @@ function RentalNavbar() {
   const wrapperRef = useRef(null);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
-
+  const { openLangModal } = useUI();
   // console.log("user is",user)  
 
   const navLinks = [
@@ -151,11 +152,20 @@ function RentalNavbar() {
             }}
           />
          <div>
-           <div className="p-1 hover:bg-gray-200 transition-all duration-300 rounded-full">
-          <Globe 
-          onClick={() => setIsOpen(true)}
-          className="p-[3px] cursor-pointer"/>
-          </div>
+            <div className="p-1 hover:bg-gray-200 transition-all duration-300 rounded-full">
+        <Globe 
+      onClick={openLangModal}
+      className="p-[3px] cursor-pointer w-6 h-6 text-gray-700 hover:text-black transition"
+    />
+      
+      </div>
+
+      
+          {/* <LanguageCurrencyModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      /> */}
+   
        
          </div>
           
