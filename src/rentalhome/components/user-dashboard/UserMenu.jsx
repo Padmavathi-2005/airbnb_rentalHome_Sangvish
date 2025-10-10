@@ -1,11 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setNewUserNav } from "../../../slices/UserSlice";
 
 // central mapping for routes
 const navMap = {
-  Dashboard: "/dashboard",
+  dashboard: "/dashboard",
   Profile: "/profile",
   "My Trips": "/trips",
   Wishlist: "/wishlist",
@@ -22,11 +22,16 @@ const slugify = (text) =>
 
 function UserMenu() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const userNavItem = useSelector((state) => state.userNav);
   const switchItemName = useSelector((state) => state.switchItem);
 
   console.log("user is",userNavItem)
+
+  const activeKeyFromRoute = Object.keys(navMap).find(
+  (key) => navMap[key] === location.pathname
+  ) || null;
 
 
   //  handles nav + redux state
@@ -65,7 +70,7 @@ function UserMenu() {
                 onClick={() => handleNav(key)}
                 className={`font-semibold ${navItems.length > 7 ? "text-sm" : "text-lg"} py-2 px-4 rounded-full transition-all 
                 cursor-pointer hover:bg-theme-20 duration-300 ease-in-out 
-                  ${userNavItem === key ? "bg-theme text-white" : ""}
+                  ${activeKeyFromRoute === key ? "bg-theme text-white" : ""}
                 `}
               >
                 {label}

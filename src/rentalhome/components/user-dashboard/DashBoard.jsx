@@ -4,7 +4,7 @@ import { User, List, Plane, Wallet ,Camera} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { useAuth } from "../../../AuthContext";
-import { useDispatch} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 import {setNewUserNav} from '../../../slices/UserSlice';
 import RentalNavbar from '../RentalNavbar';
 
@@ -39,7 +39,14 @@ function DashBoard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // console.log("user is", user.user);
+  // Assuming state.propertyList and state.expPropertyList
+  const properties = useSelector((state) => state.propertyList || []);
+  const expProperties = useSelector((state) => state.expPropertyList || []);
+
+  // Count items where wishlist status is true (or '1')
+  const wishlistCount =
+    properties.filter((p) => p?.wishlist?.status === '1').length +
+    expProperties.filter((p) => p?.wishlist?.status === '1').length;
 
     const handleProfile=()=>{
        dispatch(setNewUserNav("Profile"));
@@ -97,15 +104,18 @@ function DashBoard() {
       <div className="col-span-3">
         <div className="grid grid-cols-3 gap-4 mb-6">
           {/* My Lists */}
-          <Card className="bg-white rounded-2xl shadow">
-            <CardContent className="flex flex-col items-center justify-center p-6">
-              <span className='bg-[#C0ECFF] mb-2 rounded-full p-3'>
-                <List className="w-6 h-6 text-[#120A36]" />
-              </span>              
-              <p className="text-lg font-bold">0</p>
-              <p className="text-gray-500 text-sm">My Lists</p>
-            </CardContent>
-          </Card>
+          <Card
+      className="bg-white rounded-2xl shadow cursor-pointer hover:shadow-lg transition"
+      onClick={() => navigate('/wishlist')}
+    >
+      <CardContent className="flex flex-col items-center justify-center p-6">
+        <span className="bg-[#C0ECFF] mb-2 rounded-full p-3">
+          <List className="w-6 h-6 text-[#120A36]" />
+        </span>
+        <p className="text-lg font-bold">{wishlistCount}</p>
+        <p className="text-gray-500 text-sm">My Lists</p>
+      </CardContent>
+    </Card>
 
           {/* Trips */}
           <Card className="bg-white rounded-2xl shadow">
