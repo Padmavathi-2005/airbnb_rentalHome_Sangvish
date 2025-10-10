@@ -96,7 +96,10 @@ function DashBoard() {
             Show others you’re really you with the identity verification badge.
           </p>
           <div className='flex justify-center pt-4 '>
-            <button className="rounded-full bg-gray-900 py-3 px-5 text-white">Get Verified</button>
+             <button
+    onClick={() => navigate("/profile?tab=trust")}
+    className="rounded-full bg-gray-900 py-3 px-5 text-white"
+  >Get Verified</button>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ import EditProfile from './profile/EditProfile';
 import Verification from './profile/Verification';
 import ReviewAbout from './profile/ReviewAbout';
 import ReviewBy from './profile/ReviewBy';
-import RentalNavbar from '../RentalNavBar';
+import RentalNavbar from '../RentalNavbar';
 import DashBoardTab from '../../ui/DashBoardTab';
 
 function Profile() {
