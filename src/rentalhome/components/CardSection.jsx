@@ -7,20 +7,6 @@ import PropertyCard from "./PropertyCard";
 import PropertyCardSkeleton from "./skeletonloader/PropertyCardSkeleton";
 import {setspacePropertyList} from "../../slices/PropertiesSlice"
 
-function Card({item}){
-  return(
-    <div>
-      <article>
-        <p>{item.name}</p>
-        <img src="#" />
-        rating 
-        price per night
-      </article>
-    </div>
-  )
-}
-
-
 
 function CardSection() {
   const dispatch = useDispatch();
