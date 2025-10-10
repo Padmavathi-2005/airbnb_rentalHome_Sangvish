@@ -7,6 +7,9 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from "redux-persist/lib/storage"; // defaults to localStorage
 import { combineReducers } from "redux";
 import expPropertyReducer from './slices/ExpPropertySlice';
+import { addExperienceReducer, addExperienceNavReducer } from "./slices/AddExperienceSlice";
+
+
 
 import testReducer from './slices/TestSlice';
 import {
@@ -38,6 +41,8 @@ const rootReducer = {
   addPropertyNav:addPropertyNavReducer,
   propertyList:allPropertyListReducer,
   expPropertyList: expPropertyReducer,
+  addExperience: addExperienceReducer,
+  addExperienceNav: addExperienceNavReducer,
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers(rootReducer));

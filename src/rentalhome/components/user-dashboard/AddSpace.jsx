@@ -26,29 +26,11 @@ function AddSpace() {
     dispatch(setPropertyNav(nav))
   }
 
-
-
     return (
 
         <>
           <RentalNavBar/>
           <UserMenu/>
-
-         {/* {
-          AddPropertyTab !== "property-city" ?(
-          <div className='max-w-7xl my-3 mx-auto'>
-                    <ul className='flex mx-auto py-2 px-2 rounded-full shadow-[0px_0px_15px_0px_#31313121] justify-between gap-5'>
-                      {
-                        navigation.map((nav, id)=>(
-                          <li key={id} onClick={()=>handleNav(nav)} className={`px-4 py-2 ${nav === AddPropertyTab ? "bg-theme text-white" : ""} rounded-full hover:bg-gray-300`}>
-                              {nav}
-                          </li>
-                        ))
-                      }
-                    </ul>
-                  </div>
-          ) : null
-         }         */}
          <>  
           <div className='max-w-7xl my-3 mx-auto'>
                     <ul className='flex mx-auto py-2 px-2 rounded-full shadow-[0px_0px_15px_0px_#31313121] justify-between gap-5'>
