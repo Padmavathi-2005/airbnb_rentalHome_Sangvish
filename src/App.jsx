@@ -32,6 +32,7 @@ import Contact from "./rentalhome/pages/Contact";
 import AboutUs from "./rentalhome/pages/AboutUs";
 import LanguageCurrencyModal from "./rentalhome/components/LanguageCurrencyModel";
 import { Navbar } from "react-chat-elements";
+import ScrollToTop from "./rentalhome/ScrollToTop";
 
 // 🔒 Protected Route Wrapper
 const ProtectedRoute = ({ children }) => {
@@ -60,9 +61,8 @@ function AppContent() {
 
       {/* Main Content */}
       <div
-        className={`transition-all duration-300 ${
-          isLangModalOpen ? "blur-sm pointer-events-none" : ""
-        }`}
+        className={`transition-all duration-300 ${isLangModalOpen ? "blur-sm pointer-events-none" : ""
+          }`}
       >
         <Routes>
           {/* Conditional Home Routes */}
@@ -175,10 +175,10 @@ function AppContent() {
       {isLangModalOpen && (
         <>
           {/* Overlay with gray blur */}
-<div className="fixed inset-0 bg-gray-700/50 backdrop-blur-sm z-40"></div>
+          <div className="fixed inset-0 bg-gray-700/50 backdrop-blur-sm z-40"></div>
 
-{/* Modal container remains same */}
-<div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+          {/* Modal container remains same */}
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
 
             <LanguageCurrencyModal onClose={closeLangModal} />
           </div>
@@ -194,6 +194,7 @@ function App() {
       <UIProvider>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
+            <ScrollToTop />
             <AppContent />
           </PersistGate>
         </Provider>

@@ -5,48 +5,60 @@
 } */
 
 :root {
-    --theme-color: #DB0B64;
-    /* --theme-color: #01b2df; */
-    /* --theme-color: #ff007b; */
-    --text-blck:#222;
+  --theme-color: #DB0B64;
+  /* --theme-color: #01b2df; */
+  /* --theme-color: #ff007b; */
+  --text-blck: #222;
 }
 
 @layer utilities {
   .bg-theme {
     background-color: var(--theme-color);
   }
-  .bg-theme-50{
+
+  .bg-theme-50 {
     background-color: color-mix(in srgb, var(--theme-color) 50%, white);
   }
-  .bg-theme-30{
+
+  .bg-theme-30 {
     background-color: color-mix(in srgb, var(--theme-color) 30%, white);
   }
-  .bg-theme-20{
+
+  .bg-theme-20 {
     background-color: color-mix(in srgb, var(--theme-color) 20%, white);
   }
-    .bg-theme-10{
+
+  .bg-theme-10 {
     background-color: color-mix(in srgb, var(--theme-color) 10%, white);
   }
-  .fill-theme{
+
+  .fill-theme {
     fill: var(--theme-color);
   }
-  .text-theme{
+
+  .text-theme {
     color: var(--theme-color);
   }
-  .text-theme-black{
-    color:var(--text-blck);
+
+  .text-theme-black {
+    color: var(--text-blck);
   }
-  .border_dft{
+
+  .border_dft {
     border-color: var(--theme-color);
   }
-  .stroke-theme{
+
+  .stroke-theme {
     stroke: var(--theme-color);
   }
-  body{
-    color:var(--text-blck);
+
+  body {
+    color: var(--text-blck);
   }
 }
-html, body {
+
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -58,7 +70,7 @@ html, body {
 }
 
 section {
-  flex: 1;  /* Pushes footer down */
+  flex: 1;
 }
 
 footer {
