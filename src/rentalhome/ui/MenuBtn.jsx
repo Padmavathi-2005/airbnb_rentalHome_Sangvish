@@ -88,7 +88,7 @@ function MenuBtn() {
           </button>
           <img
            onClick={handleProfile}
-            src={user.profile_src}
+            src={user.profile_image}
             className="rounded-full h-10 w-10 object-cover border border-2 cursor-pointer border-red-400"
           />
         </>

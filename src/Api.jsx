@@ -3,7 +3,6 @@ import axios from "axios";
 
 export const API = axios.create({
   baseURL: "https://bnbexp.letsdateme.com/api",
-  // timeout: 10000, // optional
 });
 
 // helper to set/remove Authorization header

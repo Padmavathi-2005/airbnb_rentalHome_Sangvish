@@ -18,7 +18,8 @@ function RentalNavbar() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { openLangModal } = useUI();
-  // console.log("user is",user)  
+  
+
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -159,14 +160,6 @@ function RentalNavbar() {
     />
       
       </div>
-
-      
-          {/* <LanguageCurrencyModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-      /> */}
-   
-       
          </div>
           
           <MenuBtn />
@@ -207,12 +200,15 @@ function RentalNavbar() {
             <div className="flex flex-col lg:hidden gap-3">
               {user ? (
                 <>
-                  <button
-                    onClick={() => navigate("/profile")}
-                    className="text-left px-5 py-2 text-gray-900 hover:text-dft"
-                  >
-                    Hi, {user.first_name}
-                  </button>
+                
+    <img
+      src={user.profile_image}
+      alt="Profile Avatar"
+      className="w-8 h-8 rounded-full object-cover"
+    />
+
+    {/* Name */}
+    <span className="text-gray-900 font-medium">{user.first_name}</span>
                   <button
                     onClick={() => {
                       logout();
