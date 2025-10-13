@@ -3,7 +3,7 @@ import experienceImg from "../../../images/add-experience/add-experience-1.png";
 import ImageTextSection from "./ImageTextSection";
 import CheckboxGroup from "./CheckboxGroup";
 
-export default function Details() {
+export default function Amenities() {
   const [selectedLang, setSelectedLang] = useState("en");
 
   // State for checkboxes

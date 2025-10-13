@@ -9,6 +9,7 @@ import Description from './add-experience/Description';
 import Details from './add-experience/Details';
 import MapAddressForm from './add-experience/MapAddressForm';
 import Amenities from './add-experience/Amenities';
+import Photos from './add-experience/Photos';
 
 function AddExperience() {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ function AddExperience() {
   const [activeTab, setActiveTab] = useState(experienceNav);
 
   // Tab names
-  const navigation = ["City", "Basics", "Description", "Details", "Location", "Amenities"];
+  const navigation = ["City", "Basics", "Description", "Details", "Location", "Amenities", "Photos"];
 
   // Handle tab switch
   const handleNav = (nav) => {
@@ -57,6 +58,7 @@ function AddExperience() {
       {activeTab === "Details" && <Details setNav={setActiveTab} />}
       {activeTab === "Location" && <MapAddressForm setNav={setActiveTab} />}
       {activeTab === "Amenities" && <Amenities setNav={setActiveTab} />}
+      {activeTab === "Photos" && <Photos setNav={setActiveTab} />}
     </>
   );
 }

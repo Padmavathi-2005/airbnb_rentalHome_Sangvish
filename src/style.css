@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-.search-input-block{
+/* .search-input-block{
   @apply px-5 py-3 flex flex-col;
-}
+} */
 
 :root {
     --theme-color: #DB0B64;
