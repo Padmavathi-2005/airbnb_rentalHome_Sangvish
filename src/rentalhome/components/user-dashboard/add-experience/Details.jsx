@@ -30,11 +30,11 @@ export default function Details() {
         imageSrc={experienceImg}
         title="Add Experience Details"
         subtitle=""
-        fullHeight={true}
+        fullHeight={false}
       />
 
       {/* Form Section */}
-      <div className="md:w-1/2 w-full p-6 flex flex-col gap-6">
+      <div className="md:w-1/2 w-full p-6 flex flex-col gap-8 h-80 md:h-[28rem] overflow-y-auto">
         {/* Details with language tabs */}
         <div className="flex flex-col gap-3">
           <label className="text-lg font-semibold">Details</label>
@@ -44,10 +44,9 @@ export default function Details() {
                 key={lang}
                 onClick={() => setSelectedLang(lang)}
                 className={`px-3 py-1 rounded-md border border-gray-300 font-medium text-sm transition
-                  ${
-                    selectedLang === lang
-                      ? "bg-red-600 text-white"
-                      : "bg-white text-gray-700 hover:bg-gray-100"
+                  ${selectedLang === lang
+                    ? "bg-red-600 text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-100"
                   }`}
               >
                 {lang}

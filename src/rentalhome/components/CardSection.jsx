@@ -1,11 +1,11 @@
-import { useMemo, useState,useEffect } from "react";
-import { fetchProperties,fetchExpProperties } from "../services/NewApi";
+import { useMemo, useState, useEffect } from "react";
+import { fetchProperties, fetchExpProperties } from "../services/NewApi";
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from "react-redux";
-import {  StarIcon,  TagIcon,Heart}from 'lucide-react'
+import { useSelector, useDispatch } from "react-redux"
 import PropertyCard from "./PropertyCard";
 import PropertyCardSkeleton from "./skeletonloader/PropertyCardSkeleton";
-import {setspacePropertyList} from "../../slices/PropertiesSlice"
+import { setspacePropertyList } from "../../slices/PropertiesSlice"
+import { setExpPropertyList } from "../../slices/ExpPropertySlice";
 
 
 function CardSection() {
@@ -15,26 +15,26 @@ function CardSection() {
   const [tab, setTab] = useState("properties"); // default to "properties"
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-      const [location, setLocation] = useState('')
-      const [checkIn, setCheckIn] = useState('')
-      const [checkOut, setCheckOut] = useState('')
+  const [location, setLocation] = useState('')
+  const [checkIn, setCheckIn] = useState('')
+  const [checkOut, setCheckOut] = useState('')
 
-  
-const handleHeartClick = async (e) => {
-  e.preventDefault();
-  if (!authUser) return navigate('/login');
 
-  setLiked(!liked); // optimistic update
-  if (onToggle) onToggle(!liked);
+  const handleHeartClick = async (e) => {
+    e.preventDefault();
+    if (!authUser) return navigate('/login');
 
-  try {
-    if (liked) await removeFromWishlist(propertyId, String(authUser.id));
-    else await addToWishlist(propertyId, String(authUser.id));
-  } catch {
-    setLiked(liked); // revert on error
-    if (onToggle) onToggle(liked);
-  }
-};
+    setLiked(!liked); // optimistic update
+    if (onToggle) onToggle(!liked);
+
+    try {
+      if (liked) await removeFromWishlist(propertyId, String(authUser.id));
+      else await addToWishlist(propertyId, String(authUser.id));
+    } catch {
+      setLiked(liked); // revert on error
+      if (onToggle) onToggle(liked);
+    }
+  };
 
   useEffect(() => {
     const payload = {
@@ -80,7 +80,7 @@ const handleHeartClick = async (e) => {
   const displayedItems = tab === "properties" ? properties : expProperties;
 
   const allProperties = useSelector(state => state.propertyList);
-  console.log("properties are store " ,properties);
+  console.log("properties are store ", properties);
 
 
 
@@ -90,62 +90,64 @@ const handleHeartClick = async (e) => {
         <div className="flex rounded-full bg-neutral-100 p-1">
           <button
             onClick={() => setTab("properties")}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-              tab === "properties"
-                ? "bg-theme shadow text-white"
-                : "text-neutral-600 hover:text-neutral-900"
-            }`}
+            className={`rounded-full px-4 py-2 text-sm font-medium transition ${tab === "properties"
+              ? "bg-theme shadow text-white"
+              : "text-neutral-600 hover:text-neutral-900"
+              }`}
           >
             Homes
           </button>
           <button
             onClick={() => setTab("expProperties")}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-              tab === "expProperties"
-                ? "bg-theme shadow text-white"
-                : "text-neutral-600 hover:text-neutral-900"
-            }`}
+            className={`rounded-full px-4 py-2 text-sm font-medium transition ${tab === "expProperties"
+              ? "bg-theme shadow text-white"
+              : "text-neutral-600 hover:text-neutral-900"
+              }`}
           >
             Experiences
           </button>
         </div>
       </div>
 
- {loading ? (
-  <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-{Array.from({ length: 5 }).map((_, index) => (
-      <PropertyCardSkeleton key={`skeleton-${index}`} />
-    ))}
-  </div>
-    
-
-  ) : (
+      {loading ? (
         <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-          {tab==="properties" ?(
-            <>
-             {displayedItems.slice(0,10).map((item) => (
-            <PropertyCard key={item.id} item={item} />
+          {Array.from({ length: 5 }).map((_, index) => (
+            <PropertyCardSkeleton key={`skeleton-${index}`} />
           ))}
+        </div>
+
+
+      ) : (
+        <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+          {tab === "properties" ? (
+            <>
+              {displayedItems.slice(0, 10).map((item) => (
+                <PropertyCard key={item.id} item={item} />
+              ))}
             </>
-          ):(
-          <>
-          {displayedItems.slice(0,10).map((item) => (
-                      <PropertyCard key={item.id} item={item} />
-                    ))}</>
-                    )}
-                    
+          ) : (
+            <>
+              {displayedItems.slice(0, 10).map((item) => (
+                <PropertyCard key={item.id} item={item} />
+              ))}</>
+          )}
+
 
         </div>
       )}
-     <div className="mt-8 flex justify-center">
-        <button  onClick={()=> navigate("/search", {
-      state: { location, checkIn, checkOut },
-    })}       
+      <div className="mt-8 flex justify-center">
+        <button
+          onClick={() => {
+            navigate("/search", {
+              state: { type: tab === "properties" ? "property" : "experience", location, checkIn, checkOut },
+            });
+          }}
           className="rounded-full border bg-white cursor-pointer border_dft px-8 py-2.5 text-lg font-semibold text-theme shadow-sm transition hover:border_dft"
         >
           Show more
         </button>
       </div>
+
     </section>
   );
 }

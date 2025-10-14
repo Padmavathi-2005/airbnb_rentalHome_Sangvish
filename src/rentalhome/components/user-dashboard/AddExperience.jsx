@@ -11,6 +11,9 @@ import MapAddressForm from './add-experience/MapAddressForm';
 import Amenities from './add-experience/Amenities';
 import Photos from './add-experience/Photos';
 import VerificationDocuments from './add-experience/VerficationDocuments';
+import Pricing from './add-experience/Pricing';
+import Booking from './add-experience/Booking';
+import Calendar from './add-experience/Calendar';
 
 function AddExperience() {
   const dispatch = useDispatch();
@@ -18,7 +21,7 @@ function AddExperience() {
   const [activeTab, setActiveTab] = useState(experienceNav);
 
   // Tab names
-  const navigation = ["City", "Basics", "Description", "Details", "Location", "Amenities", "Photos", "Verification Documents"];
+  const navigation = ["City", "Basics", "Description", "Details", "Location", "Amenities", "Photos", "Verification Documents", "Pricing", "Booking", "Calendar"];
 
   // Handle tab switch
   const handleNav = (nav) => {
@@ -39,8 +42,8 @@ function AddExperience() {
                 key={id}
                 onClick={() => handleNav(nav)}
                 className={`flex-shrink-0 px-4 py-2 rounded-full cursor-pointer text-sm sm:text-base transition-colors duration-200 ${nav === activeTab
-                    ? "bg-theme text-white shadow-inner"
-                    : "bg-white hover:bg-gray-200"
+                  ? "bg-theme text-white shadow-inner"
+                  : "bg-white hover:bg-gray-200"
                   }`}
               >
                 {nav}
@@ -60,6 +63,9 @@ function AddExperience() {
       {activeTab === "Amenities" && <Amenities setNav={setActiveTab} />}
       {activeTab === "Photos" && <Photos setNav={setActiveTab} />}
       {activeTab === "Verification Documents" && <VerificationDocuments setNav={setActiveTab} />}
+      {activeTab === "Pricing" && <Pricing setNav={setActiveTab} />}
+      {activeTab === "Booking" && <Booking setNav={setActiveTab} />}
+      {activeTab === "Calendar" && <Calendar setNav={setActiveTab} />}
     </>
   );
 }

@@ -2,13 +2,14 @@ import { MapPin, ChevronDown, CalendarDays, Search, Users } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 import SearchDropDown from './SearchDropDown';
 import { useNavigate } from 'react-router-dom';
+import Guests from './Guests';
 
 function SearchBar() {
   const [location, setLocation] = useState('');
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [dropDown, setDropDown] = useState('');
-  const [guests, setGuests] = useState({ adults: 0, children: 0, infants: 0, pets: 0 });
+  const [guests, setGuests] = useState({ adults: 1, children: 0, infants: 0, pets: 0 });
 
   const wrapperRef = useRef(null);
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ function SearchBar() {
     <div ref={wrapperRef} className='relative'>
       <div className='bg-white md:relative lg:absolute rounded-xl md:rounded-full shadow-lg'>
         <form onSubmit={handleSearch} className='block md:flex lg:flex justify-between items-center'>
-          
+
           {/* Location */}
           <div className='flex items-center justify-around gap-3 py-4 px-2'>
             <MapPin className='w-5 stroke-theme' />
@@ -104,49 +105,41 @@ function SearchBar() {
 
           <div className="h-6 w-0.5 hidden sm:block bg-gray-300"></div>
 
-         {/* Guests */}
-<div className='flex items-center justify-around gap-3 py-4 px-2 relative'>
-  {/* Icon + Input */}
-  <div 
-    onClick={() => setDropDown('guests')} 
-    className="flex items-center gap-3 cursor-pointer"
-  >
-    {/* Icon */}
-   <Users className='w-5 stroke-theme' /> 
-    <div>
-      <label className='flex items-center text-theme text-sm justify-between'>
-        Guests <ChevronDown className="mx-2 w-5 stroke-theme" />
-      </label>
-      <div className='text-sm text-gray-500'>
-        {guests.adults + guests.children + guests.infants + guests.pets} guests
-      </div>
-    </div>
-  </div>
+          {/* Guests */}
 
-  {/* Guests Dropdown */}
-  {dropDown === 'guests' && (
-    <div className='absolute top-full mt-2 right-0 bg-white shadow-lg rounded-xl p-4 z-50 w-72'>
-      {['adults', 'children', 'infants', 'pets'].map(type => (
-        <div key={type} className='flex justify-between items-center py-2'>
-          <div>
-            <p className='font-semibold capitalize'>{type}</p>
-            <p className='text-xs text-gray-400'>
-              {type === 'adults' ? 'Age 13 or above' :
-               type === 'children' ? 'Ages 2-12' :
-               type === 'infants' ? 'Under 2' :
-               'Bringing a service animal?'}
-            </p>
+          <div className="flex items-center justify-around gap-3 py-4 px-2 relative">
+            <div
+              onClick={() =>
+                setDropDown(dropDown === "guests" ? null : "guests")
+              }
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <Users className="w-5 stroke-theme" />
+              <div>
+                <label className="flex items-center text-theme text-sm justify-between">
+                  Guests <ChevronDown className="mx-1 w-4 stroke-theme" />
+                </label>
+                <div className="text-sm text-gray-500 truncate" title={`${guests.adults} Adults${guests.children > 0 ? `, ${guests.children} Children` : ''}${guests.infants > 0 ? `, ${guests.infants} Infants` : ''}${guests.pets > 0 ? `, ${guests.pets} Pets` : ''}`}>
+                  {`${guests.adults} Adults${guests.children > 0 ? `, ${guests.children} Children` : ''}${guests.infants > 0 ? `, ${guests.infants} Infants` : ''}${guests.pets > 0 ? `, ${guests.pets} Pets` : ''}`}
+                </div>
+
+              </div>
+            </div>
+
+            {dropDown === "guests" && (
+              <div
+                className="absolute top-[110%] right-0 z-50"
+                onClick={(e) => e.stopPropagation()} 
+              >
+                <Guests
+                  guestCounts={guests}
+                  onGuestChange={handleGuestChange}
+                  className="w-96 sm:w-[550px]"
+                />
+              </div>
+            )}
           </div>
-          <div className='flex items-center gap-2'>
-            <button type='button' onClick={() => handleGuestChange(type, -1)} className='w-6 h-6 border rounded-full text-gray-700'>-</button>
-            <span>{guests[type]}</span>
-            <button type='button' onClick={() => handleGuestChange(type, 1)} className='w-6 h-6 border rounded-full text-gray-700'>+</button>
-          </div>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
+
 
 
           {/* Search Button */}
