@@ -6,4 +6,4 @@ export const scrollToTop = (smooth = false) => {
 };
 
 
-// import and scrollToTop(true);
+// import scrollToTop and scrollToTop(true);
