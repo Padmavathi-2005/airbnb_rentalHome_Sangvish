@@ -1,26 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Globe, Instagram } from 'lucide-react';
 import { TwitterX } from '../ui/Svg';
+import { scrollToTop } from '../utilities/ScrollToTop';
+
 function Footer({ Setversion, version }) {
-
-
-  const [pageVersion, setPageVersion] = useState(version)
-
-
-
+   const [pageVersion, setPageVersion] = useState(version)
   const handleVersion = () => {
     const newVersion = pageVersion === 'RentalHome' ? 'AirBnb' : 'RentalHome';
     setPageVersion(newVersion);
     Setversion(newVersion);
-    window.scrollTo({
-      top: 0,
-      behavior: 'auto', // or smooth
-    });
+    scrollToTop(true);
     console.log(newVersion)
   }
-
-
-
 
   const footerSections = [
     {
@@ -36,11 +27,6 @@ function Footer({ Setversion, version }) {
       links: ["Newsroom", "New features", "Careers", "Investors", "Gift cards", "Airbnb.org emergency stays"]
     }
   ];
-
-
-
-
-
 
   return (
 
@@ -93,7 +79,6 @@ function Footer({ Setversion, version }) {
         </div>
       </div>
     </footer>
-
   )
 }
 
