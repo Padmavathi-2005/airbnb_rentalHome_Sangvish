@@ -3,15 +3,12 @@ import { AiFillStar } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 
 function SearchExperiences({ location, checkIn, checkOut, expProperties, setLatitude, setLongitude }) {
-    // Step 1: Filter results based on location
     const filteredExperiences = expProperties.filter((exp) =>
         exp.experience_address?.address_line_1
             ?.toLowerCase()
             .includes(location?.toLowerCase())
     );
 
-    // Extract city and coordinates
-    const searchCity = filteredExperiences.map((exp) => exp.experience_address.city);
     const searchLatitude = filteredExperiences.map((exp) => exp.experience_address.latitude);
     const searchLongitude = filteredExperiences.map((exp) => exp.experience_address.longitude);
 
@@ -20,25 +17,23 @@ function SearchExperiences({ location, checkIn, checkOut, expProperties, setLati
         setLongitude(searchLongitude);
     }, []);
 
-    console.log("experience-card-items:", expProperties);
-
     return (
-        <div className="w-full">
+        <div className="w-full px-2 md:px-4 lg:px-6">
             {/* Grid Layout */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
                 {filteredExperiences.map((exp) => (
                     <Link
                         key={exp.id}
                         to={`/experience/${exp.id}/${exp.slug}`}
                         state={{ experience: exp }}
                     >
-                        <div className="cursor-pointer bg-white shadow-[0px_6px_35px_0px_rgba(178,178,178,0.25)] border border-gray-200 relative rounded-3xl overflow-hidden transition">
+                        <div className="cursor-pointer bg-white shadow-[0px_6px_35px_0px_rgba(178,178,178,0.25)] border border-gray-200 relative rounded-3xl overflow-hidden transition hover:scale-105 duration-300">
                             {/* -------- Experience Image Section -------- */}
                             <div className="relative p-2">
                                 <img
                                     src={exp.cover_photo}
                                     alt={exp.name}
-                                    className="w-full h-40 object-cover rounded-[20px_20px_60px_20px]"
+                                    className="w-full h-40 sm:h-44 md:h-48 lg:h-52 object-cover rounded-[20px_20px_60px_20px]"
                                 />
                                 <span className="absolute top-4 right-4 bg-white/70 backdrop-blur text-xs font-semibold px-2 py-1 rounded-md shadow">
                                     Top Experience

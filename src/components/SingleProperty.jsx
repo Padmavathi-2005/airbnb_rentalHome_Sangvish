@@ -102,64 +102,64 @@ function SingleProperty() {
     noOfPhotos === 1
       ? ""
       : noOfPhotos === 2
-      ? "grid-cols-2 grid-rows-1 gap-2"
-      : noOfPhotos === 3
-      ? "grid-cols-3 grid-rows-2 gap-2"
-      : noOfPhotos === 4
-      ? "grid-cols-4 gap-2"
-      : noOfPhotos === 5
-      ? "grid-cols-3 grid-rows-2 gap-2"
-      : "";
+        ? "grid-cols-2 grid-rows-1 gap-2"
+        : noOfPhotos === 3
+          ? "grid-cols-3 grid-rows-2 gap-2"
+          : noOfPhotos === 4
+            ? "grid-cols-4 gap-2"
+            : noOfPhotos === 5
+              ? "grid-cols-3 grid-rows-2 gap-2"
+              : "";
 
   // Summary (truncated with "Show More")
   const summary = item.property_description?.summary || "";
   const maxLength = 150;
   const toggleShowMore = () => setShowMore((prev) => !prev);
 
-  console.log("items are",item)
+  console.log("items are", item)
 
   return (
     <>
-    <section  className="bg-white hidden relative z-10">
-      <div  className="max-w-7xl mx-auto bg-white rounded-xl overflow-hidden pt-10 px-4">
+      <section className="bg-white hidden relative z-10">
+        <div className="max-w-7xl mx-auto bg-white rounded-xl overflow-hidden pt-10 px-4">
 
-        <div className="pt-6 flex items-center justify-between">
-          <h1 className="text-3xl font-semibold mb-4">{item.name}</h1>
-          <div className="flex items-center justify-between">
-            <span className="flex items-center mr-3"><Share className="mr-2"/> Share</span>
-            <span className="flex items-center ">
-              <WhishBtn
-                propertyId={item.id}
-                initialStatus={item?.wishlist?.status === '1'}
-              />
-              Save</span>
+          <div className="pt-6 flex items-center justify-between">
+            <h1 className="text-3xl font-semibold mb-4">{item.name}</h1>
+            <div className="flex items-center justify-between">
+              <span className="flex items-center mr-3"><Share className="mr-2" /> Share</span>
+              <span className="flex items-center ">
+                <WhishBtn
+                  propertyId={item.id}
+                  initialStatus={item?.wishlist?.status === '1'}
+                />
+                Save</span>
             </div>
           </div>
           <div className={`grid ${grid}`}>
             {mainPhoto && (
-              <div className={`rounded  ${noOfPhotos === 2 ? "row-span-2 col-span-1" : noOfPhotos === 3 ? "row-span-2 col-span-2" :('')} -lg overflow-hidden`}>
+              <div className={`rounded  ${noOfPhotos === 2 ? "row-span-2 col-span-1" : noOfPhotos === 3 ? "row-span-2 col-span-2" : ('')} -lg overflow-hidden`}>
                 <img
                   src={`https://bnbexp.letsdateme.com/public/images/property/${item.id}/${mainPhoto.photo}`}
                   alt={item.name}
                   className={`object-cover w-full h-75`}
                 />
               </div>
-              )}
+            )}
             {secondaryPhotos.map((photo, idx) => (
               <div key={photo.id} className="rounded-lg overflow-hidden">
                 <img
                   src={`https://bnbexp.letsdateme.com/public/images/property/${item.id}/${photo.photo}`}
-                  alt={`${item.name} - ${photo.id}`}              
-                  className={`object-cover w-full h-36 ${noOfPhotos ==2 ? "h-75" : "" }`}
+                  alt={`${item.name} - ${photo.id}`}
+                  className={`object-cover w-full h-36 ${noOfPhotos == 2 ? "h-75" : ""}`}
                 />
               </div>
-              ))}
+            ))}
           </div>
           <div className="py-4">
             <p className="text-2xl font-semibold mb-1">{`Entire rental unit in ${item.property_address.city}, ${item.property_address.state}`}</p>
             <p className="text-lg text-gray-700 mb-2 flex justofy-between items-center">
               {item.bedrooms} beds  <Dot /> {item.bathrooms} bathrooms
-            </p>            
+            </p>
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 py-5 flex flex items-stretch justify-start flex-wrap ">
@@ -185,7 +185,7 @@ function SingleProperty() {
               <div className=" text-center">
                 <span className="text-xl lg:text-2xl font-semibold">4.99</span>
                 <div className="flex py-1">
-                  <Star/><Star/><Star/><Star/><Star/>
+                  <Star /><Star /><Star /><Star /><Star />
                 </div>
               </div>
               <span className="bg-gray-200 h-8 w-[1px] "></span>
@@ -196,25 +196,25 @@ function SingleProperty() {
             </div>
 
             <div className="my-5 py-3">
-             <div className="flex  items-center py-4 border-b border-t border-gray-200">
-               <img src={dummyProfile} className="w-12 h-12"/>
-               <span className="mx-3">
-                <h3 className="text-lg font-semibold">{item.users.last_name}</h3>
-                <p className="text-gray-500">Hosting Year</p>
-               </span>
-             </div>
+              <div className="flex  items-center py-4 border-b border-t border-gray-200">
+                <img src={dummyProfile} className="w-12 h-12" />
+                <span className="mx-3">
+                  <h3 className="text-lg font-semibold">{item.users.last_name}</h3>
+                  <p className="text-gray-500">Hosting Year</p>
+                </span>
+              </div>
             </div>
 
-          <div className="my-5 py-3">
-            <p>
-            {showMore ? summary : summary.slice(0, maxLength) + (summary.length > maxLength ? "..." : "")}
-            </p>
-            {summary.length > maxLength && (
-            <button className="my-4 px-5 font-semibold py-3 bg-gray-200 rounded-lg" onClick={toggleShowMore}>
-            {showMore ? "Show Less" : "Show More"}
-            </button>
-            )}
-          </div>
+            <div className="my-5 py-3">
+              <p>
+                {showMore ? summary : summary.slice(0, maxLength) + (summary.length > maxLength ? "..." : "")}
+              </p>
+              {summary.length > maxLength && (
+                <button className="my-4 px-5 font-semibold py-3 bg-gray-200 rounded-lg" onClick={toggleShowMore}>
+                  {showMore ? "Show Less" : "Show More"}
+                </button>
+              )}
+            </div>
 
           </div>
           <div className="w-[45%] " ref={wrapperRef}>
@@ -228,14 +228,14 @@ function SingleProperty() {
                 </div>
                 <div className="rounded-xl  shadow-lg p-3 bg-white">
 
-                <div className='py-3'>
-                  <p className="text-gray-500">                  
-                    <span className="text-black font-bold text-lg mr-1">${item.property_price.price}</span>
-                    <span className="text-gray-500 font-medium">for 2 nights</span>
-                  </p>
-                </div>
+                  <div className='py-3'>
+                    <p className="text-gray-500">
+                      <span className="text-black font-bold text-lg mr-1">${item.property_price.price}</span>
+                      <span className="text-gray-500 font-medium">for 2 nights</span>
+                    </p>
+                  </div>
 
-                {/* <div className="border border-gray-300 rounded-lg my-3">
+                  {/* <div className="border border-gray-300 rounded-lg my-3">
                   <div>
                       <div className="grid grid-cols-2 gap-2 border-b border-gray-300 overflow-hidden">
                       <div className="px-3 py-2 border-r border-gray-300">
@@ -277,52 +277,27 @@ function SingleProperty() {
                     </div>
                 </div> */}
 
-                
-                <button className="w-full bg-pink-600 hover:bg-pink-700 text-white my-2 py-2 rounded-lg font-medium">
-                  Reserve
-                </button>
 
-                <p className="text-center text-xs text-gray-500">
-                  You won't be charged yet
-                </p>
-
-                <div className="text-center">
-                  <button className="text-xs text-gray-500 underline">
-                    Report this listing
+                  <button className="w-full bg-pink-600 hover:bg-pink-700 text-white my-2 py-2 rounded-lg font-medium">
+                    Reserve
                   </button>
+
+                  <p className="text-center text-xs text-gray-500">
+                    You won't be charged yet
+                  </p>
+
+                  <div className="text-center">
+                    <button className="text-xs text-gray-500 underline">
+                      Report this listing
+                    </button>
+                  </div>
                 </div>
-                 </div>
               </div>
             </div>
 
           </div>
-          
-         
-
         </div>
       </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </>
   );
 }

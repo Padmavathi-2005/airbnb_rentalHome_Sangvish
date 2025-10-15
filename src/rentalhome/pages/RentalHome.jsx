@@ -7,7 +7,7 @@ import GallerySection from '../components/GallerySection'
 import ExperienceSection from '../components/ExperienceSection'
 import AppDownloadBanner from '../components/AppDownloadBanner '
 import RentalNavbar from '../components/RentalNavbar';
-import MyHeroSection from '../components/MyHeroSection'
+
 function RentalHome() {
   return (
    <>

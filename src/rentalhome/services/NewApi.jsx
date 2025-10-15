@@ -1,70 +1,70 @@
 import axios from 'axios';
 export const API_BASE_URL = "https://bnbexp.letsdateme.com/api";
 
-export const SearchLocation =[
-    {id:1, location:"Madurai", description:"a hidden gem"},
-    {id:2, location:"Chennai", description:"a bustling metropolis"},
-    {id:3, location:"Sivaganga", description:"a serene escape"},
-    {id:4, location:"Theni", description:"a picturesque town"},
-    {id:5, location:"Bangalore", description:"a tech hub"},
-    {id:6, location:"Coimbatore", description:"a cultural hotspot"},
-    {id:7, location:"Kochi", description:"a coastal paradise"},
-    {id:8, location:"Kodaikanal", description:"a hill station retreat"},
-    {id:9, location:"Ooty", description:"a charming hill station"}
+export const SearchLocation = [
+  { id: 1, location: "Madurai", description: "a hidden gem" },
+  { id: 2, location: "Chennai", description: "a bustling metropolis" },
+  { id: 3, location: "Sivaganga", description: "a serene escape" },
+  { id: 4, location: "Theni", description: "a picturesque town" },
+  { id: 5, location: "Bangalore", description: "a tech hub" },
+  { id: 6, location: "Coimbatore", description: "a cultural hotspot" },
+  { id: 7, location: "Kochi", description: "a coastal paradise" },
+  { id: 8, location: "Kodaikanal", description: "a hill station retreat" },
+  { id: 9, location: "Ooty", description: "a charming hill station" }
 ]
 
 export const fetchProperties = async (payload) => {
-    try {
-        const response = await fetch('https://bnbexp.letsdateme.com/api/search/result', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
+  try {
+    const response = await fetch('https://bnbexp.letsdateme.com/api/search/result', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        return result.data;  // Assuming API responds with { data: [...] }
-    } catch (error) {
-        console.error("search reult API Error:", error);
-        return [];
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const result = await response.json();
+    return result.data;  // Assuming API responds with { data: [...] }
+  } catch (error) {
+    console.error("search reult API Error:", error);
+    return [];
+  }
 };
 
-export const fetchExpProperties = async (payload)=>{
-    try{
-        const response = await fetch("https://bnbexp.letsdateme.com/api/expsearch/result",{
-            method:'POST',
-            header:{
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+export const fetchExpProperties = async (payload) => {
+  try {
+    const response = await fetch("https://bnbexp.letsdateme.com/api/expsearch/result", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-        const result = await response.json();
-        return result.data
-    }
-    catch(error){
-        console.error('Error From fetching Experience', error)
-        return[];
-    }
+    const result = await response.json();
+    return result.data
+  }
+  catch (error) {
+    console.error('Error From fetching Experience', error)
+    return [];
+  }
 };
 
-export const HomeCategories =[
-{id:1, img:"https://bnbexp.letsdateme.com/public/images/property/thumb/301/681b599cb2488.jpg",name:"Tree Houses", price:300},
-{id:2, img:"https://bnbexp.letsdateme.com/public/images/property/thumb/110/671629a0f3d59.jpg",name:"Cabins", price:520},
-{id:3, img:"https://bnbexp.letsdateme.com/public/images/property/thumb/285/67f3aa63be154.jpg",name:"Villas", price:250},
-{id:4, img:"https://bnbexp.letsdateme.com/public/images/property/thumb/109/67162eedd1330.jpg",name:"Appartments", price:100},
-{id:5, img:"https://bnbexp.letsdateme.com/public/images/property/thumb/302/681c56b00b81e.jpg",name:"Houses", price:100},
+export const HomeCategories = [
+  { id: 1, img: "https://bnbexp.letsdateme.com/public/images/property/thumb/301/681b599cb2488.jpg", name: "Tree Houses", price: 300 },
+  { id: 2, img: "https://bnbexp.letsdateme.com/public/images/property/thumb/110/671629a0f3d59.jpg", name: "Cabins", price: 520 },
+  { id: 3, img: "https://bnbexp.letsdateme.com/public/images/property/thumb/285/67f3aa63be154.jpg", name: "Villas", price: 250 },
+  { id: 4, img: "https://bnbexp.letsdateme.com/public/images/property/thumb/109/67162eedd1330.jpg", name: "Appartments", price: 100 },
+  { id: 5, img: "https://bnbexp.letsdateme.com/public/images/property/thumb/302/681c56b00b81e.jpg", name: "Houses", price: 100 },
 ]
 
 export const PopularHome = [
@@ -134,7 +134,7 @@ export const PopularHome = [
 ];
 
 export const NewestHome = [
-      {
+  {
     id: "wales-1",
     days: 3,
     location: "Ullamco",
@@ -317,13 +317,13 @@ export const sendMessage = (userId, messageText) => {
         text: messageText,
         timestamp: new Date(),
       };
-      
+
       // Add to mock storage
       if (!mockMessages[userId]) {
         mockMessages[userId] = [];
       }
       mockMessages[userId].push(newMessage);
-      
+
       resolve(newMessage);
     }, 200);
   });
