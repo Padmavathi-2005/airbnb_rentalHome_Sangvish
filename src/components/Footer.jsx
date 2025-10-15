@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { FooterUniqueStays as mockUniqueStays } from '../Api';
 import { Globe, Instagram } from 'lucide-react';
 import { TwitterX } from '../ui/Svg';
 function Footer({ Setversion, version }) {
@@ -13,6 +12,10 @@ function Footer({ Setversion, version }) {
     const newVersion = pageVersion === 'RentalHome' ? 'AirBnb' : 'RentalHome';
     setPageVersion(newVersion);
     Setversion(newVersion);
+    window.scrollTo({
+      top: 0,
+      behavior: 'auto', // or smooth
+    });
     console.log(newVersion)
   }
 
@@ -42,14 +45,7 @@ function Footer({ Setversion, version }) {
   return (
 
     <footer className="footer_section  bg-[#f7f7f7] text-dft">
-
-      <div className='relative mx-auto max-w-7xl unique_stays  py-[48px] px-4 h-auto'>
-        <h3 className='font-medium text-2xl pb-5'>Inspiration for future getaways</h3>
-        <div>
-          <div className='w-full h-[1px] bg-gray-300'></div>
-        </div>
-      </div>
-      <div className="mx-auto max-w-7xl px-4 ">
+      <div className="mx-auto max-w-7xl px-4 py-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-left">
           {footerSections.map((section, index) => (
             <div key={index}>
