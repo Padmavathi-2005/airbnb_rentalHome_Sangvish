@@ -16,30 +16,64 @@ function SearchProperties({
   setHoveredPropertyId,
 }) {
   const cardRefs = useRef({});
+
   const filteredProperties = properties.filter((property) =>
     property.property_address.address_line_1
       ?.toLowerCase()
       .includes(location?.toLowerCase())
   );
-  const colors = ["#00ACC1", "#9C27B0", "#FFC107", "#E91E63", "#2196F3"];
+
   const searchLatitude = filteredProperties.map((p) => p.property_address.latitude);
   const searchLongitude = filteredProperties.map((p) => p.property_address.longitude);
-  const shadowColors = [
-    "rgba(0, 172, 193, 0.35)",   // teal
-    "rgba(156, 39, 176, 0.35)",  // purple
-    "rgba(255, 193, 7, 0.35)",   // amber
-    "rgba(233, 30, 99, 0.35)",   // pink
-    "rgba(33, 150, 243, 0.35)",  // blue
-  ];
 
+  // useEffect(() => {
+  //   if (activePropertyId && cardRefs.current[activePropertyId]) {
+  //     cardRefs.current[activePropertyId].scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "nearest", // better for bottom/top
+  //     });
+  //   }
+  // }, [activePropertyId]);
   useEffect(() => {
-    if (activePropertyId && cardRefs.current[activePropertyId]) {
-      cardRefs.current[activePropertyId].scrollIntoView({
+    if (!activePropertyId) return;
+    const card = cardRefs.current[activePropertyId];
+    if (!card) return;
+
+    card.scrollIntoView({
+      behavior: "smooth",
+      block: "nerest",
+    });
+  }, [activePropertyId]);
+  //scroll
+  useEffect(() => {
+    if (!hoveredPropertyId) return;
+    const card = cardRefs.current[hoveredPropertyId];
+    if (!card) return;
+
+    const timer = setTimeout(() => {
+      card.scrollIntoView({
         behavior: "smooth",
         block: "center",
       });
-    }
-  }, [activePropertyId]);
+    }, 400); // delay in ms (e.g., 200ms = 0.2s)
+
+    return () => clearTimeout(timer);
+
+  }, [hoveredPropertyId]);
+
+  // useEffect(() => {
+  //   if (activePropertyId && cardRefs.current[activePropertyId]) {
+  //     const card = cardRefs.current[activePropertyId];
+  //     card.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  //     // temporary highlight animation
+  //     card.style.transition = "box-shadow 0.3s ease";
+  //     card.style.boxShadow = "0 0 25px red";
+  //     setTimeout(() => {
+  //       card.style.boxShadow = "";
+  //     }, 1000);
+  //   }
+  // }, [activePropertyId]);
 
   useEffect(() => {
     setLatitude(searchLatitude);
@@ -58,15 +92,6 @@ function SearchProperties({
           const isActive = activePropertyId === property.id;
           const isHovered = hoveredPropertyId === property.id;
 
-          const shadowColors = [
-            "rgba(0,172,193,0.35)",   // teal
-            "rgba(156,39,176,0.35)",  // purple
-            "rgba(255,193,7,0.35)",   // amber
-            "rgba(233,30,99,0.35)",   // pink
-            "rgba(33,150,243,0.35)",  // blue
-          ];
-          const shadowColor = shadowColors[index % shadowColors.length];
-
           return (
             <Link
               key={property.id}
@@ -77,15 +102,13 @@ function SearchProperties({
                 ref={(el) => (cardRefs.current[property.id] = el)}
                 onMouseEnter={() => setHoveredPropertyId?.(property.id)}
                 onMouseLeave={() => setHoveredPropertyId?.(null)}
-                onClick={() => setActivePropertyId(property.id)}
+                onClick={() => setActivePropertyId?.(property.id)}
                 className="cursor-pointer transition-all duration-300 rounded-3xl overflow-hidden bg-white"
                 style={{
-                  boxShadow: isActive
-                    ? "0 0 25px red" // active clicked card
-                    : isHovered
-                      ? `0 0 25px ${shadowColor}` // hover card
-                      : "0 4px 15px rgba(0,0,0,0.1)", // default
-                  transform: isActive || isHovered ? "scale(1.03)" : "scale(1)",
+                  boxShadow: isActive || isHovered
+                    ? "0 2px 8px rgba(0,0,0,0.1)"
+                    : "0 1px 4px rgba(0,0,0,0.05)",
+                  transform: isActive || isHovered ? "scale(1.02)" : "scale(1)",
                 }}
               >
                 <div className="relative p-2">
@@ -123,11 +146,9 @@ function SearchProperties({
             </Link>
           );
         })}
-
       </div>
     </div>
   );
-
 }
 
 export default SearchProperties;

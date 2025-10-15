@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { GoogleMap, OverlayView, useJsApiLoader } from "@react-google-maps/api";
 
-const defaultCenter = { lat: 13.0827, lng: 80.2707 };
 const mapContainerStyle = { width: "100%", height: "100%" };
 
-function Map({ properties = [], onMarkerClick, hoveredPropertyId, setHoveredPropertyId = () => {}}) {
+function Map({ properties = [], onMarkerClick, hoveredPropertyId, setHoveredPropertyId = () => { }, activePropertyId, setActivePropertyId = () => { }, }) {
   const [map, setMap] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
   const mapRef = useRef();
@@ -12,7 +11,6 @@ function Map({ properties = [], onMarkerClick, hoveredPropertyId, setHoveredProp
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
   });
-  const colors = ["#00ACC1", "#9C27B0", "#FFC107", "#E91E63", "#2196F3"];
   const coordinates = properties
     .map((p) => {
       const addr = p.property_address || p.experience_address;
@@ -33,29 +31,23 @@ function Map({ properties = [], onMarkerClick, hoveredPropertyId, setHoveredProp
     })
     .filter(Boolean);
 
-  const markerShadows = [
-    { bg: "from-[#00ACC1] to-[#26C6DA]", shadow: "rgba(0,172,193,0.4)" },
-    { bg: "from-[#9C27B0] to-[#BA68C8]", shadow: "rgba(156,39,176,0.4)" },
-    { bg: "from-[#FFC107] to-[#FFD54F]", shadow: "rgba(255,193,7,0.4)" },
-    { bg: "from-[#E91E63] to-[#F06292]", shadow: "rgba(233,30,99,0.4)" },
-    { bg: "from-[#2196F3] to-[#64B5F6]", shadow: "rgba(33,150,243,0.4)" },
-  ];
-  const center = coordinates.length > 0 ? coordinates[0] : defaultCenter;
-
   useEffect(() => {
     if (isLoaded && map && coordinates.length) {
-      const bounds = new window.google.maps.LatLngBounds();
-      coordinates.forEach((c) => bounds.extend(c));
-      map.fitBounds(bounds);
+      if (!mapRef.current.boundsSet) {
+        const bounds = new window.google.maps.LatLngBounds();
+        coordinates.forEach((c) => bounds.extend(c));
+        map.fitBounds(bounds);
+        mapRef.current.boundsSet = true; // mark that bounds are set
+      }
     }
   }, [isLoaded, map, coordinates]);
+
 
   if (!isLoaded) return <p>Loading map...</p>;
 
   return (
     <GoogleMap
       mapContainerStyle={mapContainerStyle}
-      center={center}
       zoom={13}
       onLoad={(mapInstance) => {
         setMap(mapInstance);
@@ -66,9 +58,6 @@ function Map({ properties = [], onMarkerClick, hoveredPropertyId, setHoveredProp
         const isActive = activeMarker === coord.id;
         const isHovered = hoveredPropertyId === coord.id;
 
-        const hoverColor = colors[index % colors.length];
-        const markerBg = isActive ? "red" : isHovered ? hoverColor : "white";
-
         return (
           <OverlayView
             key={coord.id}
@@ -76,32 +65,35 @@ function Map({ properties = [], onMarkerClick, hoveredPropertyId, setHoveredProp
             mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
           >
             <div
-              onClick={() => setActiveMarker(coord.id)}
+              onClick={() => {
+                setActiveMarker(coord.id);
+                setActivePropertyId?.(coord.id);
+                mapRef.current?.panTo({ lat: coord.lat, lng: coord.lng });
+              }}
               onMouseEnter={() => setHoveredPropertyId?.(coord.id)}
               onMouseLeave={() => setHoveredPropertyId?.(null)}
-              className={`transition-all transform cursor-pointer flex justify-center items-center`}
+              className="transition-all transform cursor-pointer flex justify-center items-center"
               style={{
-                transform: isActive || isHovered ? "scale(1.1)" : "scale(1)",
+                transform: isActive || isHovered ? "scale(1.05)" : "scale(1)", // subtle zoom
                 zIndex: isActive || isHovered ? 20 : 10,
               }}
             >
               <div
-                className="px-4 py-[6px] rounded-full text-sm font-medium shadow-md"
+                className={`px-4 py-[6px] rounded-full text-sm font-medium shadow-md ${isActive || isHovered ? "bg-theme-50 text-white" : "bg-white"
+                  }`}
                 style={{
                   minWidth: "90px",
                   textAlign: "center",
                   whiteSpace: "nowrap",
-                  backgroundColor: markerBg,
-                  boxShadow: isActive
-                    ? "0 0 15px red"
-                    : isHovered
-                      ? `0 0 15px ${hoverColor}`
-                      : "0 4px 10px rgba(0,0,0,0.1)",
+                  boxShadow: isActive || isHovered
+                    ? "0 2px 8px rgba(0,0,0,0.1)" // subtle gray shadow
+                    : "0 1px 4px rgba(0,0,0,0.05)",
                 }}
               >
                 {coord.currency} {coord.price}
               </div>
             </div>
+
           </OverlayView>
         );
       })}

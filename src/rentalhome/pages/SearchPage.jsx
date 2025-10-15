@@ -126,10 +126,16 @@ const SearchPage = () => {
                   location={location}
                   checkIn={checkIn}
                   checkOut={checkOut}
-                  expProperties={currentList}
+                  experiences={currentList} // instead of expProperties
                   setLatitude={setLatitude}
                   setLongitude={setLongitude}
+                  mapView={true}
+                  activeExperienceId={activePropertyId} // optional sync with map
+                  setActiveExperienceId={setActivePropertyId} // optional sync with map
+                  hoveredExperienceId={hoveredPropertyId}
+                  setHoveredExperienceId={setHoveredPropertyId}
                 />
+
               ) : (
                 <SearchProperties
                   location={location}
@@ -138,24 +144,33 @@ const SearchPage = () => {
                   properties={currentList}
                   setLatitude={setLatitude}
                   setLongitude={setLongitude}
+                  activePropertyId={activePropertyId}
+                  hoveredPropertyId={hoveredPropertyId}
+                  setHoveredPropertyId={setHoveredPropertyId}
+                  setActivePropertyId={setActivePropertyId}
                 />
               )}
             </div>
           ) : (
-            /* Map View - updated for mobile */
+            /* Map View */
             <div className="flex flex-col md:flex-row gap-4">
               {/* Property List */}
-              <div className="md:w-1/2 overflow-visible md:overflow-y-auto md:max-h-[calc(100vh-180px)]">
+              <div className="md:w-1/2 overflow-visible md:overflow-y-auto md:max-h-[calc(100vh-180px)] p-2">
                 {isExperience ? (
                   <SearchExperiences
                     location={location}
                     checkIn={checkIn}
                     checkOut={checkOut}
-                    expProperties={currentList}
+                    experiences={currentList} // instead of expProperties
                     setLatitude={setLatitude}
                     setLongitude={setLongitude}
                     mapView={true}
+                    activeExperienceId={activePropertyId} // optional sync with map
+                    setActiveExperienceId={setActivePropertyId} // optional sync with map
+                    hoveredExperienceId={hoveredPropertyId}
+                    setHoveredExperienceId={setHoveredPropertyId}
                   />
+
                 ) : (
                   <SearchProperties
                     location={location}
@@ -170,21 +185,23 @@ const SearchPage = () => {
                     hoveredPropertyId={hoveredPropertyId}
                     setHoveredPropertyId={setHoveredPropertyId}
                   />
-
                 )}
               </div>
 
               {/* Map */}
+
               <div className="md:w-1/2 h-[300px] md:h-[calc(100vh-180px)] rounded-lg overflow-hidden shadow-md">
                 <Map
                   properties={currentList}
-                  onMarkerClick={setActivePropertyId}  // click marker → scroll
-                  hoveredPropertyId={hoveredPropertyId}  // ✅ correct variable
+                  activePropertyId={activePropertyId}
+                  onMarkerClick={setActivePropertyId}
+                  hoveredPropertyId={hoveredPropertyId}
                   setHoveredPropertyId={setHoveredPropertyId}
                 />
               </div>
             </div>
           )}
+
 
         </div>
       </section>

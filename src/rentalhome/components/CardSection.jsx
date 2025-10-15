@@ -80,7 +80,11 @@ function CardSection() {
   const displayedItems = tab === "properties" ? properties : expProperties;
 
   const allProperties = useSelector(state => state.propertyList);
-  console.log("properties are store ", properties);
+  useEffect(() => {
+  console.log("properties", properties);
+  console.log("expProperties", expProperties);
+}, [properties, expProperties]);
+
 
 
 
