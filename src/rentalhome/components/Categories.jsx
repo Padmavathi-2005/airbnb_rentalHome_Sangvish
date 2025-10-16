@@ -27,8 +27,8 @@ function Categories() {
 
   // --- Responsive visible items ---
   const getVisibleItems = () => {
-    if (window.innerWidth < 640) return 1; // Mobile: 1 item
-    if (window.innerWidth < 1024) return 2; // Tablet: 2 items
+    if (window.innerWidth < 640) return 2; // Mobile: 1 item
+    if (window.innerWidth < 1024) return 3; // Tablet: 2 items
     return 4; // Desktop: 4 items
   };
 
@@ -153,9 +153,7 @@ function Categories() {
 
           {/* Carousel */}
           <div
-            className={`flex ${
-              isTransitioning ? "transition-transform duration-500 ease-in-out" : ""
-            }`}
+            className={`flex ${isTransitioning ? "transition-transform duration-500 ease-in-out" : ""}`}
             style={{
               transform: `translateX(-${(current * 100) / visibleItems}%)`,
             }}
@@ -163,21 +161,25 @@ function Categories() {
             {displayItems.map((categorie, index) => (
               <div
                 key={index}
-                className={`flex-none w-full sm:w-1/2 lg:w-1/4 flex flex-col items-center text-center p-2 sm:p-4`}
+                className="flex-none w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/4 flex flex-col items-center text-center p-2 sm:p-4 
+             cursor-pointer transform transition-transform duration-300 hover:scale-105"
               >
+
                 {/* Image */}
                 <img
-                  className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 rounded-full object-cover"
+                  className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full object-cover"
                   src={categorie.cover_photo}
                   alt={categorie.name}
                 />
-
                 {/* Info */}
                 <div className="mt-[-16px] sm:mt-[-20px]">
                   <div className="flex justify-center">
-                    <MapPin className="w-12 h-12 sm:w-14 sm:h-14 p-3 sm:p-4 bg-white rounded-full shadow-xl" />
+                    <MapPin
+                      className="w-12 h-12 sm:w-14 sm:h-14 p-3 sm:p-4 bg-theme rounded-full shadow-xl stroke-white"
+                    />
                   </div>
-                  <div className="flex items-center flex-col mt-2 gap-1 text-gray-600">
+
+                  <div className="flex flex-col items-center mt-2 gap-1 text-gray-600">
                     <span className="text-sm sm:text-base font-semibold">{categorie.name}</span>
                     <p className="text-xs sm:text-sm">
                       Starts from{" "}
@@ -188,8 +190,10 @@ function Categories() {
                   </div>
                 </div>
               </div>
+
             ))}
           </div>
+
         </div>
       </section>
     )
