@@ -26,65 +26,70 @@ function UserMenu() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const userNavItem = useSelector((state) => state.userNav);
   const switchItemName = useSelector((state) => state.switchItem);
 
-  console.log("user is",userNavItem)
+  const activeKeyFromRoute =
+    Object.keys(navMap).find((key) => navMap[key] === location.pathname) ||
+    null;
 
-  const activeKeyFromRoute = Object.keys(navMap).find(
-  (key) => navMap[key] === location.pathname
-  ) || null;
-
-
-  //  handles nav + redux state
   const handleNav = (nav) => {
     dispatch(setNewUserNav(nav));
     const path = navMap[nav] || `/${slugify(nav)}`;
     navigate(path);
   };
 
-  //  define nav items once
-const navItems = useMemo(() => [
-  { key: "dashboard", label: "Dashboard" },
-  { key: "Profile", label: "Profile" },
-  ...(switchItemName === "host"
-    ? [
-        { key: "add_space", label: "Add Space" },
-        { key: "add_experience", label: "Add Experience" },
-        { key: "manageListing", label: "Manage Listing" },
-        { key: "manageBooking", label: "Manage Booking" },
-      ]
-    : []),
-  { key: "My Trips", label: "My Trips" },
-  { key: "Wishlist", label: "Wishlist" },
-  { key: "Messages", label: "Messages" },
-  { key: "Payment & Account", label: "Payment & Account" },
-], [switchItemName]);
-
+  const navItems = useMemo(
+    () => [
+      { key: "dashboard", label: "Dashboard" },
+      { key: "Profile", label: "Profile" },
+      ...(switchItemName === "host"
+        ? [
+          { key: "add_space", label: "Add Space" },
+          { key: "add_experience", label: "Add Experience" },
+          { key: "manageListing", label: "Manage Listing" },
+          { key: "manageBooking", label: "Manage Booking" },
+        ]
+        : []),
+      { key: "My Trips", label: "My Trips" },
+      { key: "Wishlist", label: "Wishlist" },
+      { key: "Messages", label: "Messages" },
+      { key: "Payment & Account", label: "Payment & Account" },
+    ],
+    [switchItemName]
+  );
 
   return (
-    <header className="py-3 bg-white shadow-md border border-gray-300">
+    <header className="py-2 bg-white shadow-md border border-gray-300">
       <div className="mx-auto max-w-7xl flex justify-between items-center px-4">
-       <div 
-  className="font-bold text-xl md:hidden cursor-pointer"
-  onClick={() => handleNav(activeKeyFromRoute || navItems[0].key)}
->
-  {navItems.find(item => item.key === activeKeyFromRoute)?.label || navItems[0].label}
-</div>
+        {/* Mobile current menu */}
+        <div
+          className="font-semibold text-sm md:hidden cursor-pointer"
+          onClick={() =>
+            handleNav(activeKeyFromRoute || navItems[0].key)
+          }
+        >
+          {navItems.find((item) => item.key === activeKeyFromRoute)?.label ||
+            navItems[0].label}
+        </div>
 
         {/* Desktop Menu */}
-        <ul className={`hidden md:flex ${navItems.length > 7 ? "gap-2" : "gap-4"}`}>
+        <ul className="hidden md:flex items-center justify-between gap-3 w-full overflow-x-auto">
           {navItems.map(({ key, label }) => (
-            <li key={key}>
+            <li key={key} className="flex-shrink-0">
               <button
                 onClick={() => handleNav(key)}
-                className={`font-semibold ${navItems.length > 7 ? "text-sm" : "text-lg"} py-2 px-4 rounded-full transition-all cursor-pointer hover:bg-theme-20 duration-300 ease-in-out ${activeKeyFromRoute === key ? "bg-theme text-white" : ""}`}
+                className={`px-4 py-2 font-semibold text-sm rounded-full transition-all duration-300 ease-in-out text-center whitespace-nowrap ${activeKeyFromRoute === key
+                    ? "bg-theme text-white"
+                    : "bg-white text-gray-800 hover:bg-theme-20"
+                  }`}
               >
                 {label}
               </button>
             </li>
           ))}
         </ul>
+
+
 
         {/* Mobile Menu Button */}
         <button
@@ -97,15 +102,18 @@ const navItems = useMemo(() => [
 
       {/* Mobile Menu */}
       {isOpen && (
-        <ul className={`flex flex-col gap-2 px-4 py-2 md:hidden`}>
+        <ul className="flex flex-col gap-2 px-4 py-2 md:hidden w-full">
           {navItems.map(({ key, label }) => (
             <li key={key}>
               <button
                 onClick={() => {
                   handleNav(key);
-                  setIsOpen(false); // close menu after click
+                  setIsOpen(false);
                 }}
-                className={`w-full text-left font-semibold py-2 px-4 rounded-full transition-all cursor-pointer hover:bg-theme-20 duration-300 ease-in-out ${activeKeyFromRoute === key ? "bg-theme text-white" : ""}`}
+                className={`w-full text-left font-semibold text-sm py-2 rounded-full transition-all cursor-pointer hover:bg-theme-20 duration-300 ease-in-out ${activeKeyFromRoute === key
+                  ? "bg-theme text-white"
+                  : "bg-white text-gray-800"
+                  }`}
               >
                 {label}
               </button>
