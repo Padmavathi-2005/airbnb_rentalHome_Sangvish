@@ -16,7 +16,7 @@ const SearchPage = () => {
   const checkOut = state?.checkOut || "";
   const type = state?.type || "property"; // 👈 detect redirect type
 
-  console.log(state); 
+  console.log(state);
 
   const [loading, setLoading] = useState(true);
   const [properties, setProperties] = useState([]);
@@ -26,8 +26,6 @@ const SearchPage = () => {
   const [activePropertyId, setActivePropertyId] = useState(null);
   const [hoveredPropertyId, setHoveredPropertyId] = useState(null);
 
-
-  const colors = ["#00ACC1", "#9C27B0", "#FFC107", "#E91E63", "#2196F3"];
 
   // Toggle between list or map view
   const [viewMode, setViewMode] = useState("list");

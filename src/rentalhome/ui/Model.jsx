@@ -14,17 +14,14 @@ function Model({ isOpen, onClose, children }) {
 
       {/* Modal Content */}
       <div className="relative  my-5 shadow-lg px-2 w-150">
-        <div className='p-4 h-[80vh] rounded-xl bg-white max-h-[700px] overflow-y-auto'> 
+        <div className='p-4 h-[80vh] rounded-xl bg-white max-h-[700px] overflow-y-auto'>
           {children}
         </div>
-        
-
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+          className="absolute top-3 right-5 text-gray-500 hover:text-gray-700"
         >
-        
-         <X />
+          <X />
         </button>
       </div>
     </div>
