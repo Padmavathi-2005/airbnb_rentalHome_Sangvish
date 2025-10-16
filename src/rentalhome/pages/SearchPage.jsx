@@ -16,6 +16,8 @@ const SearchPage = () => {
   const checkOut = state?.checkOut || "";
   const type = state?.type || "property"; // 👈 detect redirect type
 
+  console.log(state); 
+
   const [loading, setLoading] = useState(true);
   const [properties, setProperties] = useState([]);
   const [expProperties, setExpProperties] = useState([]);

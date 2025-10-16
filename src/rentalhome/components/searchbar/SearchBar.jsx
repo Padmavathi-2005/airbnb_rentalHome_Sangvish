@@ -21,8 +21,16 @@ function SearchBar() {
     else if (name === "CheckOut") setCheckOut(value);
   };
 
-  const handleGuestChange = (type, delta) => {
-    setGuests(prev => ({ ...prev, [type]: Math.max(0, prev[type] + delta) }));
+  const handleGuestChange = (type, newValue) => {
+    // Ensure we only set numeric, non-negative values
+    const safeValue = Math.max(0, Number(newValue) || 0);
+
+    // Enforce at least 1 adult
+    if (type === 'adults') {
+      setGuests(prev => ({ ...prev, adults: Math.max(1, safeValue) }));
+    } else {
+      setGuests(prev => ({ ...prev, [type]: safeValue }));
+    }
   };
 
   useEffect(() => {
@@ -37,7 +45,18 @@ function SearchBar() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    navigate("/search", { state: { location, checkIn, checkOut, guests } });
+    const searchData = {
+      location: location || null,
+      checkIn: checkIn || null,
+      checkOut: checkOut || null,
+      guests: {
+        adults: guests.adults || 1,
+        children: guests.children || 0,
+        infants: guests.infants || 0,
+        pets: guests.pets || 0
+      }
+    };
+    navigate("/search", { state: searchData });
   };
 
   return (
@@ -46,7 +65,10 @@ function SearchBar() {
         <form onSubmit={handleSearch} className='block md:flex lg:flex justify-between items-center'>
 
           {/* Location */}
-          <div className='flex items-center justify-around gap-3 py-4 px-2'>
+          <div
+            className="flex items-center justify-around gap-3 py-4 px-2 cursor-pointer hover:bg-gray-50 rounded-full transition"
+            onClick={() => setDropDown('Location')}
+          >
             <MapPin className='w-5 stroke-theme' />
             <div>
               <label className='flex items-center text-theme text-sm justify-between'>
@@ -58,7 +80,6 @@ function SearchBar() {
                 placeholder='Location'
                 name="Location"
                 onChange={handleOnChange}
-                onClick={() => setDropDown('Location')}
               />
             </div>
           </div>
@@ -66,7 +87,10 @@ function SearchBar() {
           <div className="h-6 w-0.5 hidden sm:block bg-gray-300"></div>
 
           {/* CheckIn */}
-          <div className='flex items-center justify-around gap-3 py-4 px-2'>
+          <div
+            className="flex items-center justify-around gap-3 py-4 px-2 cursor-pointer hover:bg-gray-50 rounded-full transition"
+            onClick={() => setDropDown('date')}
+          >
             <CalendarDays className='w-5 stroke-theme' />
             <div>
               <label className='flex items-center text-theme text-sm justify-between'>
@@ -78,7 +102,6 @@ function SearchBar() {
                 placeholder='Add Dates'
                 name="Checkin"
                 onChange={handleOnChange}
-                onClick={() => setDropDown('date')}
               />
             </div>
           </div>
@@ -86,7 +109,10 @@ function SearchBar() {
           <div className="h-6 w-0.5 hidden sm:block bg-gray-300"></div>
 
           {/* CheckOut */}
-          <div className='flex items-center justify-around gap-3 py-4 px-2'>
+          <div
+            className="flex items-center justify-around gap-3 py-4 px-2 cursor-pointer hover:bg-gray-50 rounded-full transition"
+            onClick={() => setDropDown('date')}
+          >
             <CalendarDays className='w-5 stroke-theme' />
             <div>
               <label className='flex items-center text-theme text-sm justify-between'>
@@ -98,38 +124,32 @@ function SearchBar() {
                 placeholder='Add Dates'
                 name="CheckOut"
                 onChange={handleOnChange}
-                onClick={() => setDropDown('date')}
               />
             </div>
           </div>
 
           <div className="h-6 w-0.5 hidden sm:block bg-gray-300"></div>
 
-          {/* Guests */}
-
-          <div className="flex items-center justify-around gap-3 py-4 px-2 relative">
-            <div
-              onClick={() =>
-                setDropDown(dropDown === "guests" ? null : "guests")
-              }
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <Users className="w-5 stroke-theme" />
-              <div>
-                <label className="flex items-center text-theme text-sm justify-between">
-                  Guests <ChevronDown className="mx-1 w-4 stroke-theme" />
-                </label>
-                <div className="text-sm text-gray-500 truncate" title={`${guests.adults} Adults${guests.children > 0 ? `, ${guests.children} Children` : ''}${guests.infants > 0 ? `, ${guests.infants} Infants` : ''}${guests.pets > 0 ? `, ${guests.pets} Pets` : ''}`}>
-                  {`${guests.adults} Adults${guests.children > 0 ? `, ${guests.children} Children` : ''}${guests.infants > 0 ? `, ${guests.infants} Infants` : ''}${guests.pets > 0 ? `, ${guests.pets} Pets` : ''}`}
-                </div>
-
+          <div
+            className="flex items-center justify-around gap-3 py-4 px-2 cursor-pointer hover:bg-gray-50 rounded-full transition"
+            onClick={() => setDropDown(dropDown === "guests" ? null : "guests")}
+          >
+            <Users className="w-5 stroke-theme" />
+            <div>
+              <label className="flex items-center text-theme text-sm justify-between">
+                Guests <ChevronDown className="mx-2 w-5 stroke-theme" />
+              </label>
+              <div className="text-sm text-gray-500 truncate min-w-[120px]">
+                {guests.children > 0 || guests.infants > 0 || guests.pets > 0
+                  ? `${guests.adults} Adults ...`
+                  : `${guests.adults} Adults`}
               </div>
             </div>
 
             {dropDown === "guests" && (
               <div
                 className="absolute top-[110%] right-0 z-50"
-                onClick={(e) => e.stopPropagation()} 
+                onClick={(e) => e.stopPropagation()}
               >
                 <Guests
                   guestCounts={guests}
@@ -138,17 +158,16 @@ function SearchBar() {
                 />
               </div>
             )}
+
+
+
           </div>
 
-
-
-          {/* Search Button */}
           <div className='px-3 pb-3 md:pb-0'>
             <button type="submit" className='bg-theme flex md-block justify-between w-full rounded-full p-4'>
               <span className='text-white mx-2 md:hidden'>Search</span><Search className='stroke-white' />
             </button>
           </div>
-
         </form>
 
         <SearchDropDown
