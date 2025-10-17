@@ -13,6 +13,22 @@ export const SearchLocation = [
   { id: 9, location: "Ooty", description: "a charming hill station" }
 ]
 
+export const getAmenitiesStepData = async (propertyId, hostId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/host/property/steps`, {
+      params: {
+        step: 'amenities',
+        id: propertyId,
+        host_id: hostId,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching amenities step data:', error);
+    throw error;
+  }
+};
+
 export const fetchProperties = async (payload) => {
   try {
     const response = await fetch('https://bnbexp.letsdateme.com/api/search/result', {

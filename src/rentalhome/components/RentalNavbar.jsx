@@ -202,7 +202,7 @@ function RentalNavbar() {
                 <>
                 
     <img
-      src={user.profile_image}
+      src={user.profile_image || user.profile_src}
       alt="Profile Avatar"
       className="w-8 h-8 rounded-full object-cover"
     />

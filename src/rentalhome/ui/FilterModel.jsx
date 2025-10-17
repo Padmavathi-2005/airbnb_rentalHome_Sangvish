@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { X, Wifi, Tv, Car, Calendar, Wind, Coffee, Home, Users, DoorOpen } from 'lucide-react';
 import { Droplet, Bolt } from "lucide-react";
 import { Building, Hotel, User } from 'lucide-react';
+import { getAmenitiesStepData } from '../services/NewApi';
+import { getProfileDetails, updateProfile, uploadProfileImage } from '../services/NewApi';
+
+
 const amenitiesData = {
   Popular: [
     { id: 1, label: "Wifi", icon: <Wifi className="w-5 h-5" /> },
@@ -35,7 +39,7 @@ function FilterModel() {
   const [selectedPropertyTypes, setSelectedPropertyTypes] = useState([]);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [selectedEquipments, setSelectedEqipments] = useState([]);
-   const [FeaturesType, setFeaturesType] = useState("any");
+  const [FeaturesType, setFeaturesType] = useState("any");
   const [selectedFeatures, setSelectedFeatures] = useState([]);
 
   const featureOptions = {
@@ -157,7 +161,6 @@ function FilterModel() {
 
 
         <div className="space-y-4">
-
           <div className="flex justify-between items-center">
             <p className="font-semibold text-base">Recommended for you</p>
             <button className="text-sm text-gray-600 hover:underline">All</button>
@@ -397,47 +400,46 @@ function FilterModel() {
         </div>
         <div className="border-t border-gray-200"></div>
 
-         <div className="space-y-4">
-      <h3 className="font-semibold text-base">Accessibility Features</h3>
+        <div className="space-y-4">
+          <h3 className="font-semibold text-base">Accessibility Features</h3>
 
-      {/* Top Filter Tabs */}
-      <div className="flex flex-col sm:flex-row gap-2 p-1 bg-theme-30 rounded-full">
-        {["any", "room", "entire"].map((type) => (
-          <button
-            key={type}
-            onClick={() => {
-              setFilterType(type);
-              setSelectedFeatures([]); // reset selections when changing tab
-            }}
-            className={`flex-1 px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-medium rounded-full transition-colors ${
-              filterType === type
-                ? "bg-theme text-white shadow-sm"
-                : "text-gray-600 hover:text-gray-900"
-            }`}
-          >
-            {type === "any" ? "Any type" : type === "room" ? "Room" : "Entire home"}
-          </button>
-        ))}
-      </div>
+          {/* Top Filter Tabs */}
+          <div className="flex flex-col sm:flex-row gap-2 p-1 bg-theme-30 rounded-full">
+            {["any", "room", "entire"].map((type) => (
+              <button
+                key={type}
+                onClick={() => {
+                  setFilterType(type);
+                  setSelectedFeatures([]); // reset selections when changing tab
+                }}
+                className={`flex-1 px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-medium rounded-full transition-colors ${filterType === type
+                  ? "bg-theme text-white shadow-sm"
+                  : "text-gray-600 hover:text-gray-900"
+                  }`}
+              >
+                {type === "any" ? "Any type" : type === "room" ? "Room" : "Entire home"}
+              </button>
+            ))}
+          </div>
 
-      {/* Checkbox List */}
-      <div className="grid grid-cols-1 gap-3">
-        {currentFeatures.map((feature, idx) => (
-          <label
-            key={idx}
-            className="flex items-center gap-2 px-4 py-2.5 text-sm rounded-lg cursor-pointer transition-all border border-gray-200 hover:border-gray-300"
-          >
-            <input
-              type="checkbox"
-              className="form-checkbox h-4 w-4 accent-[var(--theme-color)] focus:ring-0"
-              checked={selectedFeatures.includes(idx)}
-              onChange={() => toggleFeatures(idx)}
-            />
-            <span>{feature}</span>
-          </label>
-        ))}
-      </div>
-    </div>
+          {/* Checkbox List */}
+          <div className="grid grid-cols-1 gap-3">
+            {currentFeatures.map((feature, idx) => (
+              <label
+                key={idx}
+                className="flex items-center gap-2 px-4 py-2.5 text-sm rounded-lg cursor-pointer transition-all border border-gray-200 hover:border-gray-300"
+              >
+                <input
+                  type="checkbox"
+                  className="form-checkbox h-4 w-4 accent-[var(--theme-color)] focus:ring-0"
+                  checked={selectedFeatures.includes(idx)}
+                  onChange={() => toggleFeatures(idx)}
+                />
+                <span>{feature}</span>
+              </label>
+            ))}
+          </div>
+        </div>
         <div className="border-t border-gray-200"></div>
 
         <div className="space-y-4">

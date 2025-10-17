@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import RentalNavBar from "../RentalNavbar";
 import UserMenu from "./UserMenu";
 import ExperienceCity from './add-experience/ExperienceCity';
 import { useSelector, useDispatch } from 'react-redux';
-import { setExperienceNav } from "../../../slices/AddExperienceSlice";
+import { setExperienceNav, resetExperienceNav } from "../../../slices/AddExperienceSlice";
 import Basics from './add-experience/Basics';
 import Description from './add-experience/Description';
 import Details from './add-experience/Details';
@@ -17,15 +17,30 @@ import Calendar from './add-experience/Calendar';
 
 function AddExperience() {
   const dispatch = useDispatch();
-  const experienceNav = useSelector((state) => state.addExperienceNav);
-  const [activeTab, setActiveTab] = useState(experienceNav);
+  const activeTab = useSelector((state) => state.addExperienceNav);
 
   // Tab names
-  const navigation = ["City", "Basics", "Description", "Details", "Location", "Amenities", "Photos", "Verification Documents", "Pricing", "Booking", "Calendar"];
+  const navigation = [
+    "City",
+    "Basics",
+    "Description",
+    "Details",
+    "Location",
+    "Amenities",
+    "Photos",
+    "Verification Documents",
+    "Pricing",
+    "Booking",
+    "Calendar"
+  ];
+
+  // Reset tab to "City" when page loads
+  useEffect(() => {
+    dispatch(resetExperienceNav());
+  }, [dispatch]);
 
   // Handle tab switch
   const handleNav = (nav) => {
-    setActiveTab(nav);
     dispatch(setExperienceNav(nav));
   };
 
@@ -41,10 +56,11 @@ function AddExperience() {
               <li
                 key={id}
                 onClick={() => handleNav(nav)}
-                className={`flex-shrink-0 px-4 py-2 rounded-full cursor-pointer text-sm sm:text-base transition-colors duration-200 ${nav === activeTab
-                  ? "bg-theme text-white shadow-inner"
-                  : "bg-white hover:bg-gray-200"
-                  }`}
+                className={`flex-shrink-0 px-4 py-2 rounded-full cursor-pointer text-sm sm:text-base transition-colors duration-200 ${
+                  nav === activeTab
+                    ? "bg-theme text-white shadow-inner"
+                    : "bg-white hover:bg-gray-200"
+                }`}
               >
                 {nav}
               </li>
@@ -53,19 +69,17 @@ function AddExperience() {
         </div>
       </div>
 
-
-
-      {activeTab === "City" && <ExperienceCity setNav={setActiveTab} />}
-      {activeTab === "Basics" && <Basics setNav={setActiveTab} />}
-      {activeTab === "Description" && <Description setNav={setActiveTab} />}
-      {activeTab === "Details" && <Details setNav={setActiveTab} />}
-      {activeTab === "Location" && <MapAddressForm setNav={setActiveTab} />}
-      {activeTab === "Amenities" && <Amenities setNav={setActiveTab} />}
-      {activeTab === "Photos" && <Photos setNav={setActiveTab} />}
-      {activeTab === "Verification Documents" && <VerificationDocuments setNav={setActiveTab} />}
-      {activeTab === "Pricing" && <Pricing setNav={setActiveTab} />}
-      {activeTab === "Booking" && <Booking setNav={setActiveTab} />}
-      {activeTab === "Calendar" && <Calendar setNav={setActiveTab} />}
+      {activeTab === "City" && <ExperienceCity />}
+      {activeTab === "Basics" && <Basics />}
+      {activeTab === "Description" && <Description />}
+      {activeTab === "Details" && <Details />}
+      {activeTab === "Location" && <MapAddressForm />}
+      {activeTab === "Amenities" && <Amenities />}
+      {activeTab === "Photos" && <Photos />}
+      {activeTab === "Verification Documents" && <VerificationDocuments />}
+      {activeTab === "Pricing" && <Pricing />}
+      {activeTab === "Booking" && <Booking />}
+      {activeTab === "Calendar" && <Calendar />}
     </>
   );
 }

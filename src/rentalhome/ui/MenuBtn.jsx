@@ -1,23 +1,26 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Menu } from "lucide-react"; // Lucide icons
+import { Menu } from "lucide-react";
 import { useAuth } from "../../AuthContext";
-import { useDispatch,useSelector} from 'react-redux';
-import {setNewUserNav,setNewSwitch} from '../../slices/UserSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNewUserNav, setNewSwitch } from '../../slices/UserSlice';
 
 function MenuBtn() {
-  const [mobileOpen, setMobileOpen] = useState(false); // not used but kept in case needed later
-  const linkRefs = useRef([]);
-  const location = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
   const wrapperRef = useRef(null);
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user: authUser, logout } = useAuth(); // use authUser
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const userNavItem = useSelector((state) => state.userNav);
 
-  // console.log("user is",userNavItem)
+  const [switchitem, setSwitchItem] = useState('guest');
 
+  // Use latest profile image from authUser
+  const profileImage =
+    authUser?.profile_src ||
+    authUser?.profile_image ||
+    'https://bnbexp.letsdateme.com/public/images/default-profile.png';
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -31,9 +34,7 @@ function MenuBtn() {
     };
   }, []);
 
-  const handleIsOpen = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const handleIsOpen = () => setIsOpen((prev) => !prev);
 
   const handleLoginMenu = () => {
     navigate("/login");
@@ -46,53 +47,37 @@ function MenuBtn() {
     setIsOpen(false);
   };
 
-  const handleProfile=()=>{
-     dispatch(setNewUserNav("Profile"));
-     navigate("/profile");
-  }
+  const handleProfile = () => {
+    dispatch(setNewUserNav("Profile"));
+    navigate("/profile");
+    setIsOpen(false);
+  };
 
+  const handleSwitchItem = () => {
+    const newSwitch = switchitem === 'guest' ? 'host' : 'guest';
+    setSwitchItem(newSwitch);
+    dispatch(setNewSwitch(newSwitch));
+  };
 
-
-
-  const [switchitem, setSwitchItem] = useState('guest');
-
-  const handleSwitchItem =()=>{
-    if (switchitem === 'guest'){
-      setSwitchItem("host")
-      
-    }
-    else if(switchitem === '"host'){
-      setSwitchItem("guest")
-    }
-    else{
-      setSwitchItem("guest")
-    }
-    dispatch(setNewSwitch(switchitem));
-  }
-
-
-  const handleDashboard =()=>{   
-    navigate("/dashboard")
-     dispatch(setNewUserNav("dashboard"));
-  }
-
+  const handleDashboard = () => {
+    navigate("/dashboard");
+    dispatch(setNewUserNav("dashboard"));
+    setIsOpen(false);
+  };
 
   return (
     <div className="hidden md:flex items-center gap-3">
-      {user ? (
+      {authUser && (
         <>
-          <button            
-            className="px-3 py-2 rounded-full text-sm"
-          >
-            Hi, {user.first_name}
-          </button>
+          <button className="px-3 py-2 rounded-full text-sm">Hi, {authUser.first_name}</button>
           <img
-           onClick={handleProfile}
-            src={user.profile_image}
+            src={profileImage}
+            onError={(e) => e.target.src = 'https://bnbexp.letsdateme.com/public/images/default-profile.png'}
             className="rounded-full h-10 w-10 object-cover border border-2 cursor-pointer border-red-400"
+            onClick={handleIsOpen}
           />
         </>
-      ) : null}
+      )}
 
       <button className="text-gray-900" onClick={handleIsOpen}>
         <Menu size={28} />
@@ -104,58 +89,41 @@ function MenuBtn() {
           className="absolute right-0 top-12 w-64 bg-white border border-gray-200 rounded-lg shadow-lg"
         >
           <ul className="py-2 text-sm text-gray-700">
-             {user ? (
-                <>
-                {
-                switchitem === 'host'&& 
-                <li onClick={handleSwitchItem} className="px-4 cursor-pointer py-2 hover:bg-gray-100 cursor-pointer">
-                  <span className="px-3 text-sm" >Switch to guest</span>
-                </li>
-                }
+            {authUser ? (
+              <>
+                {switchitem === 'host' ? (
+                  <li onClick={handleSwitchItem} className="px-4 cursor-pointer py-2 hover:bg-gray-100">
+                    <span className="px-3 text-sm">Switch to guest</span>
+                  </li>
+                ) : (
+                  <li onClick={handleSwitchItem} className="px-4 cursor-pointer py-2 hover:bg-gray-100">
+                    <span className="px-3 text-sm">Switch to host</span>
+                  </li>
+                )}
 
-                {
-                switchitem === 'guest' &&  
-                <li onClick={handleSwitchItem} className="px-4 cursor-pointer py-2 hover:bg-gray-100 cursor-pointer">
-                  <span  className="px-3 text-sm" >Switch to host</span>
-                </li>
-                }
-
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer"> 
-                  <span className="px-3 flex text-sm" onClick={handleDashboard}> Dashboard</span>
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <span className="px-3 flex text-sm" onClick={handleDashboard}>Dashboard</span>
                 </li>
 
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer"> 
-                    <a  onClick={handleLogoutMenu}className="px-3 flex text-sm">Logout</a>
-                </li>  
-
-                </>               
-              ) : (
-                <>
-                
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <a onClick={handleLogoutMenu} className="px-3 flex text-sm">Logout</a>
+                </li>
+              </>
+            ) : (
+              <>
                 <li>
-                <button
-                  onClick={handleLoginMenu}
-                  className="px-3 py-2 text-sm"
-                >
-                  Log in or sign up
-                </button>
-                 
+                  <button onClick={handleLoginMenu} className="px-3 py-2 text-sm">Log in or sign up</button>
                 </li>
                 <li>
-                  <button
-                  onClick={() => navigate("/signup")}
-                   className="px-3 py-2 text-sm"
-                  >
-                  Signup
-                  </button>
+                  <button onClick={() => navigate("/signup")} className="px-3 py-2 text-sm">Signup</button>
                 </li>
-                </>
-              )}            
+              </>
+            )}
           </ul>
         </div>
       )}
     </div>
   );
 }
- 
+
 export default MenuBtn;
