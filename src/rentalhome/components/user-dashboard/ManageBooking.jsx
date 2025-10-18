@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ListingCard from '../../ui/ListingCard';
 import Nodata from '../../ui/Nodata';
 import DashBoardTab from '../../ui/DashBoardTab';
-import RentalNavbar from '../RentalNavbar';
+import RentalNavbar from '../RentalNavBar';
 
 function ManageBooking() {
 

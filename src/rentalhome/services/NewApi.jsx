@@ -262,10 +262,36 @@ export const uploadProfileImage = async (file, id) => {
     throw error;
   }
 };
+//Manage listing
+export const getMyListingProperty = async (params = {}) => {
+  try {
+    console.log("Fetching properties with params:", params);
+
+    const response = await axios.get(`${API_BASE_URL}/host/property`, {
+      params: {
+        ...params,
+        per_page: 10, // you can pass per_page dynamically if needed
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('bnb_token')}`
+      }
+    });
+
+    console.log("API response:", response.data);
+    return response.data;
+
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error fetching properties:', error.response?.data);
+      throw error.response?.data || { message: 'Failed to fetch properties' };
+    }
+    throw { message: 'Failed to fetch properties' };
+  }
+};
 
 export const createBooking = async (payload, id) => {
   try {
-    const response = await api.post('/payments/create_booking', {
+    const response = await axios.post('/payments/create_booking', {
       ...payload,
       user_id: id,
     });

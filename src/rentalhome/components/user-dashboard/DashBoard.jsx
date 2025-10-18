@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useAuth } from "../../../AuthContext";
 import { useSelector, useDispatch } from 'react-redux';
 import { setNewUserNav } from '../../../slices/UserSlice';
-import RentalNavbar from '../RentalNavbar';
+import RentalNavbar from '../RentalNavBar';
 import { API } from "../../../Api";
 import toast, { Toaster } from "react-hot-toast";
 import ConfirmModal from "../common/ConfirmModel";
