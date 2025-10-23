@@ -289,6 +289,47 @@ export const getMyListingProperty = async (params = {}) => {
   }
 };
 
+
+//create experience
+export const createExperience = async (data) => {
+  try {
+    const token = localStorage.getItem("bnb_token");
+    if (!token) {
+      throw new Error("Authentication token missing");
+    }
+
+    const response = await axios.post(
+      `${API_BASE_URL}/host/experience/create`,
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data; // Return full backend response for consistency
+  } catch (error) {
+    // Detect CORS errors explicitly
+    if (error.message === "Network Error") {
+      console.error("CORS or Network issue — check server CORS setup.");
+    } else {
+      console.error("Error creating experience:", error.response || error);
+    }
+    throw error;
+  }
+};
+
+//Contact us
+export const contactUs = async (data) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/contact_us`, data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
 export const createBooking = async (payload, id) => {
   try {
     const response = await axios.post('/payments/create_booking', {
