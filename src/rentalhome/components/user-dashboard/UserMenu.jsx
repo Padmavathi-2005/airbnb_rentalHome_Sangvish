@@ -32,11 +32,18 @@ function UserMenu() {
     Object.keys(navMap).find((key) => navMap[key] === location.pathname) ||
     null;
 
-  const handleNav = (nav) => {
-    dispatch(setNewUserNav(nav));
-    const path = navMap[nav] || `/${slugify(nav)}`;
-    navigate(path);
-  };
+const handleNav = (nav) => {
+  dispatch(setNewUserNav(nav));
+
+  // Step 2a: Reset Trips tab if My Trips clicked
+  if (nav === "My Trips") {
+    localStorage.setItem("tripmenu", "All");
+  }
+
+  const path = navMap[nav] || `/${slugify(nav)}`;
+  navigate(path);
+};
+
 
   const navItems = useMemo(
     () => [

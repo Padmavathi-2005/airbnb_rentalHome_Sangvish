@@ -127,9 +127,8 @@ export default function ExperienceCity() {
                       <li
                         key={place.place_id}
                         onClick={() => handleSelect(place)}
-                        className={`flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-600 ${
-                          index < 3 ? "border-b border-gray-200" : ""
-                        }`}
+                        className={`flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-600 ${index < 3 ? "border-b border-gray-200" : ""
+                          }`}
                       >
                         <MapPin className="mr-2 text-gray-400 w-4 h-4" />
                         <span className="font-bold text-black">{city}</span>
@@ -147,9 +146,8 @@ export default function ExperienceCity() {
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.97 }}
               type="submit"
-              className={`px-8 py-2 rounded-full bg-theme text-white font-semibold shadow-md focus:ring-2 focus:ring-pink-200 transition ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`px-8 py-2 rounded-full bg-theme text-white font-semibold shadow-md focus:ring-2 focus:ring-pink-200 transition ${loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               disabled={!query || loading}
             >
               {loading ? "Saving..." : "Next"}

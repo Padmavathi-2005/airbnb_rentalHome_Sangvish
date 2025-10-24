@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Banknote, ReceiptText, X, Star } from "lucide-react";
 export const API_BASE_URL = "https://bnbexp.letsdateme.com/api";
 
 export const SearchLocation = [
@@ -321,6 +322,21 @@ export const createExperience = async (data) => {
   }
 };
 
+//basics in expereince
+export const updateBasicsStep = async (propertyId, payload) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/host/property/steps`, {
+      ...payload,
+      step: "basics",
+      id: propertyId,
+    });
+    return response.data; // backend returns {status, message, id}
+  } catch (error) {
+    console.error("Error updating basics step:", error);
+    throw error;
+  }
+};
+
 //Contact us
 export const contactUs = async (data) => {
   try {
@@ -343,6 +359,55 @@ export const createBooking = async (payload, id) => {
   }
 };
 
+//My trips
+
+export const fetchTripsByMenu = async (menu, userId) => {
+  try {
+    const url = `${API_BASE_URL}/my_trips/${menu}?user_id=${userId}`;
+    const response = await axios.get(url);
+
+    if (response.data.success && Array.isArray(response.data.data)) {
+      return response.data.data.map((item) => {
+        const actions = [
+          { label: "View Receipt", class: "bg-green-600 hover:bg-green-700 text-white", icon: ReceiptText, link: "#" },
+          { label: item.payment_method, class: "bg-blue-600 text-white hover:bg-blue-700", icon: Banknote, link: "#" },
+        ];
+
+        if (item.write_review === 1)
+          actions.push({ label: "Write Review", class: "bg-yellow-500 hover:bg-yellow-600 text-white", icon: Star, link: "#" });
+        if (item.cancel_btn === 1)
+          actions.push({ label: "Cancel", class: "bg-red-500 hover:bg-red-600 text-white", icon: X, link: "#" });
+
+        return {
+          img: item.cover_photo,
+          title: item.property_name,
+          location: item.property_address,
+          from: item.start_date,
+          to: item.end_date,
+          status: item.booking_status,
+          statusClass:
+            item.booking_status === "Accepted"
+              ? "bg-green-600 text-white"
+              : item.booking_status === "Pending"
+                ? "bg-gray-500 text-white"
+                : item.booking_status === "Completed"
+                  ? "bg-blue-600 text-white"
+                  : item.booking_status === "Expired"
+                    ? "bg-red-400 text-white"
+                    : "bg-gray-400 text-white",
+          host: item.host_name,
+          avatar: item.host_profile,
+          actions,
+        };
+      });
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching trips:", error);
+    return [];
+  }
+};
 const mockUsers = [
   { id: 1, name: 'Dianne Russell', lastMessage: 'Lorem ipsum is simply dummy text of typesetting industry. Lorem ipsum.', avatar: 'https://plus.unsplash.com/premium_photo-1690407617542-2f210cf20d7e?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
   { id: 2, name: 'Floyd Miles', lastMessage: 'Lorem ipsum is simply dummy text of typesetting industry. Lorem ipsum.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },

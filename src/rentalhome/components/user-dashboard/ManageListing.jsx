@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import UserMenu from "./UserMenu";
 import { useAuth } from "../../../AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
-import RentalNavbar from "../RentalNavbar";
+import RentalNavbar from "../RentalNavBar";
 import ListingCard from "./ListingCard";
 import Nodata from "../../ui/Nodata";
 import DashBoardTab from "../../ui/DashBoardTab";

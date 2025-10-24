@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import RentalNavBar from "../RentalNavbar";
+import RentalNavBar from "../RentalNavBar";
 import UserMenu from "./UserMenu";
 import ExperienceCity from './add-experience/ExperienceCity';
 import { useSelector, useDispatch } from 'react-redux';

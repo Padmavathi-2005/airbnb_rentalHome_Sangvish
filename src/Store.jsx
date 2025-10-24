@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { locationReducer, checkInReducer, checkOutReducer,arrayReducer ,guestReducer} from './slices/SearchSlice';
-import {userNavReducer,switchReducer,userProfileReducer} from "./slices/UserSlice";
-import {addPropertyReducer,addPropertyNavReducer} from './slices/AddPropertySlice';
-import {allPropertyListReducer} from './slices/PropertiesSlice';
+import { locationReducer, checkInReducer, checkOutReducer, arrayReducer, guestReducer } from './slices/SearchSlice';
+import { userNavReducer, switchReducer, userProfileReducer } from "./slices/UserSlice";
+import { addPropertyReducer, addPropertyNavReducer } from './slices/AddPropertySlice';
+import { allPropertyListReducer } from './slices/PropertiesSlice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from "redux-persist/lib/storage"; // defaults to localStorage
 import { combineReducers } from "redux";
@@ -35,11 +35,11 @@ const rootReducer = {
   guests: guestReducer,
   arrayData: arrayReducer,
   userNav: userNavReducer,
-  switchItem : switchReducer,
-  userProfile:userProfileReducer,
-  addProperty:addPropertyReducer,
-  addPropertyNav:addPropertyNavReducer,
-  propertyList:allPropertyListReducer,
+  switchItem: switchReducer,
+  userProfile: userProfileReducer,
+  addProperty: addPropertyReducer,
+  addPropertyNav: addPropertyNavReducer,
+  propertyList: allPropertyListReducer,
   expPropertyList: expPropertyReducer,
   addExperience: addExperienceReducer,
   addExperienceNav: addExperienceNavReducer,
@@ -50,10 +50,10 @@ const persistedReducer = persistReducer(persistConfig, combineReducers(rootReduc
 export const store = configureStore({
   devTools: true,
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware)=>
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck:{
-        ignoreActions:[FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      serializableCheck: {
+        ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
     })
 });
